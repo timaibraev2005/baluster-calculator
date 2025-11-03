@@ -2,7 +2,9 @@ const CACHE_NAME = 'baluster-calculator-v3';
 const urlsToCache = [
     './',
     './index.html',
-    './manifest.json'
+    './manifest.json',
+    './icons/icon-192.png',
+    './icons/icon-512.png'
 ];
 
 self.addEventListener('install', function(event) {
@@ -41,4 +43,5 @@ self.addEventListener('activate', function(event) {
             );
         })
     );
+
 });
