@@ -1,4 +1,4 @@
-const CACHE_NAME = 'baluster-calculator-v3';
+const CACHE_NAME = 'construction-calculator-v1';
 const urlsToCache = [
     '/baluster-calculator/',
     '/baluster-calculator/index.html',
@@ -43,6 +43,4 @@ self.addEventListener('activate', function(event) {
             );
         })
     );
-
 });
-
