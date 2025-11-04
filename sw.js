@@ -1,10 +1,10 @@
 const CACHE_NAME = 'construction-calculator-v1';
 const urlsToCache = [
-    '/baluster-calculator/',
-    '/baluster-calculator/index.html',
-    '/baluster-calculator/manifest.json',
-    '/baluster-calculator/icons/icon-192.png',
-    '/baluster-calculator/icons/icon-512.png'
+    '/Constuction-Calculator/',
+    '/Constuction-Calculator/index.html',
+    '/Constuction-Calculator/manifest.json',
+    '/Constuction-Calculator/icons/icon-192.png',
+    '/Constuction-Calculator/icons/icon-512.png'
 ];
 
 self.addEventListener('install', function(event) {
@@ -44,3 +44,4 @@ self.addEventListener('activate', function(event) {
         })
     );
 });
+
