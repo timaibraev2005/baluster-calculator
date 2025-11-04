@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baluster Calculator</title>
-    <meta name="description" content="Professional baluster calculator for construction">
+    <title>Construction Calculator</title>
+    <meta name="description" content="Professional construction calculators for baluster spacing and rail height">
     <meta name="theme-color" content="#1a365d">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" href="./icons/icon-192.png">
@@ -19,12 +19,80 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            padding: 15px;
             color: #333;
         }
 
-        .container {
-            max-width: 400px;
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: #1a365d;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .tab-button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .tab-button.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: #4299e1;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Calculator Container */
+        .calculator-container {
+            max-width: 500px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -142,7 +210,6 @@
 
         .result-section.active {
             display: block;
-            animation: fadeIn 0.5s ease;
         }
 
         .result-title {
@@ -177,6 +244,63 @@
 
         .result-value {
             font-size: 1.4rem;
+            font-weight: 800;
+            color: #2d3748;
+        }
+
+        /* Rail Calculator Specific Styles */
+        .basic-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .setback-results {
+            background: #ebf8ff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #bee3f8;
+        }
+
+        .setback-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c5282;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .setback-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .setback-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .setback-card, .height-card {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .setback-name, .height-name {
+            font-size: 0.85rem;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .setback-value, .height-value {
+            font-size: 1.1rem;
             font-weight: 800;
             color: #2d3748;
         }
@@ -232,16 +356,36 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
             }
             
-            .container {
+            .sidebar {
+                width: 100%;
+                padding: 10px 0;
+            }
+            
+            .tab-button {
+                padding: 12px 20px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .tab-button.active {
+                border-left: none;
+                border-bottom-color: #4299e1;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .calculator-container {
                 border-radius: 15px;
             }
             
-            .result-grid {
+            .result-grid, .basic-results {
                 grid-template-columns: 1fr;
             }
             
@@ -249,91 +393,224 @@
                 font-size: 1.5rem;
             }
             
-            .thickness-examples {
-                justify-content: center;
+            .setback-pair {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Baluster Calculator</h1>
-            <p>Professional spacing calculator</p>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Construction Calculator</h1>
+                <p>Professional Tools</p>
+            </div>
+            <button class="tab-button active" data-tab="baluster">Baluster Calculator</button>
+            <button class="tab-button" data-tab="rail">Rail Height Calculator</button>
         </div>
 
-        <div class="input-section">
-            <div class="input-group">
-                <label for="wTotal">Distance between posts (inches):</label>
-                <input type="text" id="wTotal" value="120" placeholder="120 or 120.5">
-                <div class="input-hint">Enter whole number or decimal</div>
-            </div>
-            
-            <div class="input-group">
-                <label for="thickness">Baluster thickness (inches):</label>
-                <input type="text" id="thickness" value="5/8" placeholder="0.625 or 5/8 or ⅝">
-                <div class="input-hint">Supports decimals, fractions, and construction symbols</div>
-                
-                <div class="thickness-examples">
-                    <div class="example-tag" onclick="document.getElementById('thickness').value = '5/8'">5/8</div>
-                    <div class="example-tag" onclick="document.getElementById('thickness').value = '7/8'">7/8</div>
-                    <div class="example-tag" onclick="document.getElementById('thickness').value = '1/2'">1/2</div>
-                    <div class="example-tag" onclick="document.getElementById('thickness').value = '1'">1</div>
-                </div>
-            </div>
-            
-            <button class="calculate-btn" onclick="calculate()">Calculate</button>
-        </div>
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Baluster Calculator Tab -->
+            <div id="baluster-tab" class="tab-content active">
+                <div class="calculator-container">
+                    <div class="header">
+                        <h1>Baluster Calculator</h1>
+                        <p>Professional spacing calculator</p>
+                    </div>
 
-        <div class="result-section" id="resultSection">
-            <div class="result-title">Optimal Configuration</div>
-            <div class="result-grid">
-                <div class="result-item">
-                    <div class="result-label">Number of Balusters</div>
-                    <div class="result-value" id="resultN">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Post to Center (C1)</div>
-                    <div class="result-value" id="resultC1">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Center Spacing (Step)</div>
-                    <div class="result-value" id="resultStep">-</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Spacing Type</div>
-                    <div class="result-value" id="resultType">-</div>
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="wTotal">Distance between posts (inches):</label>
+                            <input type="text" id="wTotal" value="120" placeholder="120 or 120.5">
+                            <div class="input-hint">Enter whole number or decimal</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="thickness">Baluster thickness (inches):</label>
+                            <input type="text" id="thickness" value="5/8" placeholder="0.625 or 5/8 or тЕЭ">
+                            <div class="input-hint">Supports decimals, fractions, and construction symbols</div>
+                            
+                            <div class="thickness-examples">
+                                <div class="example-tag" onclick="document.getElementById('thickness').value = '5/8'">5/8</div>
+                                <div class="example-tag" onclick="document.getElementById('thickness').value = '7/8'">7/8</div>
+                                <div class="example-tag" onclick="document.getElementById('thickness').value = '1/2'">1/2</div>
+                                <div class="example-tag" onclick="document.getElementById('thickness').value = '1'">1</div>
+                            </div>
+                        </div>
+                        
+                        <button class="calculate-btn" onclick="calculateBaluster()">Calculate</button>
+                    </div>
+
+                    <div class="result-section" id="balusterResultSection">
+                        <div class="result-title">Optimal Configuration</div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Number of Balusters</div>
+                                <div class="result-value" id="resultN">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Post to Center (C1)</div>
+                                <div class="result-value" id="resultC1">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Center Spacing (Step)</div>
+                                <div class="result-value" id="resultStep">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Spacing Type</div>
+                                <div class="result-value" id="resultType">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="balusterErrorMessage"></div>
+
+                    <div class="info-section">
+                        <strong>Note:</strong> Calculator finds optimal spacing between 3-4 inches. Works completely offline. Install to home screen for best experience.
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="error-message" id="errorMessage"></div>
+            <!-- Rail Height Calculator Tab -->
+            <div id="rail-tab" class="tab-content">
+                <div class="calculator-container">
+                    <div class="header">
+                        <h1>Rail Height Calculator</h1>
+                        <p>Professional rail calculations</p>
+                    </div>
 
-        <div class="info-section">
-            <strong>Note:</strong> Calculator finds optimal spacing between 3-4 inches. Works completely offline. Install to home screen for best experience.
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="rise">Rise (inches):</label>
+                            <input type="text" id="rise" value="6 11/16" placeholder="6 11/16">
+                            <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="run">Run (inches):</label>
+                            <input type="text" id="run" value="12" placeholder="12">
+                            <div class="input-hint">Supports: 1 1/2, 1_1/2, 1.5</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="railHeight">Rail Height (inches):</label>
+                            <input type="text" id="railHeight" value="36 1/4" placeholder="36 1/4">
+                            <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="balustersPerTread">Baluster's Per Tread:</label>
+                            <input type="number" id="balustersPerTread" value="3" placeholder="3" min="1">
+                            <div class="input-hint">Number of balusters per step</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="railThickness">Rail Thickness (inches):</label>
+                            <input type="text" id="railThickness" value="1 5/8" placeholder="1 5/8">
+                            <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
+                        </div>
+                        
+                        <button class="calculate-btn" onclick="calculateRail()">Calculate</button>
+                    </div>
+
+                    <div class="result-section" id="railResultSection">
+                        <div class="result-title">Basic Parameters</div>
+                        <div class="basic-results">
+                            <div class="result-item">
+                                <div class="result-label">Rake Angle</div>
+                                <div class="result-value" id="rakeAngle">-</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Net Baluster Height @ Nosing</div>
+                                <div class="result-value" id="netBalusterNosing">-</div>
+                            </div>
+                        </div>
+
+                        <div class="setback-results">
+                            <div class="setback-title">Baluster Setbacks & Heights</div>
+                            <div class="setback-grid">
+                                <div class="setback-pair">
+                                    <div class="setback-card">
+                                        <div class="setback-name">Baluster Setback 1</div>
+                                        <div class="setback-value" id="setback1">-</div>
+                                    </div>
+                                    <div class="height-card">
+                                        <div class="height-name">Net Baluster Height 1</div>
+                                        <div class="height-value" id="height1">-</div>
+                                    </div>
+                                </div>
+                                <div class="setback-pair">
+                                    <div class="setback-card">
+                                        <div class="setback-name">Baluster Setback 2</div>
+                                        <div class="setback-value" id="setback2">-</div>
+                                    </div>
+                                    <div class="height-card">
+                                        <div class="height-name">Net Baluster Height 2</div>
+                                        <div class="height-value" id="height2">-</div>
+                                    </div>
+                                </div>
+                                <div class="setback-pair">
+                                    <div class="setback-card">
+                                        <div class="setback-name">Baluster Setback 3</div>
+                                        <div class="setback-value" id="setback3">-</div>
+                                    </div>
+                                    <div class="height-card">
+                                        <div class="height-name">Net Baluster Height 3</div>
+                                        <div class="height-value" id="height3">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="railErrorMessage"></div>
+
+                    <div class="info-section">
+                        <strong>Note:</strong> Professional rail height calculator for construction. Works completely offline. Install to home screen for best experience.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="install-prompt" id="installPrompt">
-        Install Baluster Calculator for quick access!
+        Install Construction Calculator for quick access!
         <button class="install-btn" onclick="installApp()">Install</button>
     </div>
 
     <script>
+        // Tab Navigation
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and tabs
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding tab
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
         // Improved fraction handling system
         class FractionConverter {
             constructor() {
                 this.fractionMap = {
-                    '½': 0.5, '¼': 0.25, '¾': 0.75,
-                    '⅛': 0.125, '⅜': 0.375, '⅝': 0.625, '⅞': 0.875
+                    '┬╜': 0.5, '┬╝': 0.25, '┬╛': 0.75,
+                    'тЕЫ': 0.125, 'тЕЬ': 0.375, 'тЕЭ': 0.625, 'тЕЮ': 0.875
                 };
                 
                 this.fractionPatterns = [
                     /^(\d+)[\s\-]*(\d+)\/(\d+)$/,  // "1 1/2" or "1-1/2"
-                    /^(\d+)[\s\-]*([½¼¾⅛⅜⅝⅞])$/,  // "1 ½" or "1-½"
-                    /^(\d+)([½¼¾⅛⅜⅝⅞])$/,         // "1½" (no space)
+                    /^(\d+)[\s\-]*([┬╜┬╝┬╛тЕЫтЕЬтЕЭтЕЮ])$/,  // "1 ┬╜" or "1-┬╜"
+                    /^(\d+)([┬╜┬╝┬╛тЕЫтЕЬтЕЭтЕЮ])$/,         // "1┬╜" (no space)
                     /^(\d+)\/(\d+)$/,              // "1/2"
-                    /^([½¼¾⅛⅜⅝⅞])$/,              // "½" (just fraction)
+                    /^([┬╜┬╝┬╛тЕЫтЕЬтЕЭтЕЮ])$/,              // "┬╜" (just fraction)
                     /^(\d+)$/,                     // "1" (whole number)
                     /^(\d+\.\d+)$/                 // "1.5" (decimal)
                 ];
@@ -448,8 +725,8 @@
                 const simpleDen = denominator / gcd;
                 
                 const commonFractions = {
-                    '1/2': '½', '1/4': '¼', '3/4': '¾',
-                    '1/8': '⅛', '3/8': '⅜', '5/8': '⅝', '7/8': '⅞'
+                    '1/2': '┬╜', '1/4': '┬╝', '3/4': '┬╛',
+                    '1/8': 'тЕЫ', '3/8': 'тЕЬ', '5/8': 'тЕЭ', '7/8': 'тЕЮ'
                 };
                 
                 const fractionStr = `${simpleNum}/${simpleDen}`;
@@ -477,8 +754,67 @@
 
         const fractionConverter = new FractionConverter();
 
-        // Main calculation function with S < 4 condition
-        function calculateBaluster(W_total, T) {
+        // Baluster Calculator Functions
+        function calculateBaluster() {
+            const wTotalInput = document.getElementById('wTotal');
+            const thicknessInput = document.getElementById('thickness');
+            const resultSection = document.getElementById('balusterResultSection');
+            const errorMessage = document.getElementById('balusterErrorMessage');
+            
+            resultSection.classList.remove('active');
+            errorMessage.style.display = 'none';
+            
+            let wTotal;
+            try {
+                wTotal = fractionConverter.parseFraction(wTotalInput.value);
+            } catch (e) {
+                showBalusterError("Please enter a valid distance (e.g., 120, 120.5, 120┬╜).");
+                return;
+            }
+            
+            if (isNaN(wTotal) || wTotal <= 0) {
+                showBalusterError("Please enter a valid positive number for total distance.");
+                return;
+            }
+            
+            if (wTotal < 10) {
+                showBalusterError("Total distance should be at least 10 inches.");
+                return;
+            }
+            
+            const thickness = thicknessInput.value;
+            if (!thickness) {
+                showBalusterError("Please enter baluster thickness.");
+                return;
+            }
+            
+            let thicknessNum;
+            try {
+                thicknessNum = fractionConverter.parseFraction(thickness);
+            } catch (e) {
+                showBalusterError("Please enter a valid baluster thickness (e.g., 5/8, 0.625, тЕЭ, 1/2, 1).");
+                return;
+            }
+            
+            if (isNaN(thicknessNum) || thicknessNum <= 0) {
+                showBalusterError("Please enter a valid baluster thickness (e.g., 5/8, 0.625, тЕЭ, 1/2, 1).");
+                return;
+            }
+            
+            const result = calculateBalusterSpacing(wTotal, thickness);
+            
+            if (result.success) {
+                document.getElementById('resultN').textContent = result.N;
+                document.getElementById('resultC1').textContent = result.C1;
+                document.getElementById('resultStep').textContent = result.Step;
+                document.getElementById('resultType').textContent = result.type;
+                resultSection.classList.add('active');
+            } else {
+                showBalusterError(result.message);
+            }
+        }
+
+        function calculateBalusterSpacing(W_total, T) {
             try {
                 const u = 16;
                 let T_num = fractionConverter.parseFraction(T);
@@ -488,14 +824,13 @@
                 let bestExact = null;
                 let bestApprox = null;
 
-                // Search for exact matches (A = S) - FIXED: S < 4 instead of <= 4
+                // Search for exact matches (A = S)
                 for (let N = 1; N <= 300; N++) {
                     const S_units = (W_total * u - N * T_num * u) / (N + 1);
                     
                     if (S_units > 0 && Math.abs(S_units - Math.round(S_units)) < 0.0001) {
                         const S_inch = S_units / u;
                         
-                        // FIXED: Use < 4 instead of <= 4
                         if (S_inch >= 3 && S_inch < 4) {
                             const C1 = S_inch + T_num / 2;
                             const Step = S_inch + T_num;
@@ -526,7 +861,7 @@
                     };
                 }
 
-                // Search for approximate matches - FIXED: S < 4 instead of <= 4
+                // Search for approximate matches
                 let approxResults = [];
                 for (let N = 1; N <= 300; N++) {
                     const S_exact = (W_total - N * T_num) / (N + 1);
@@ -536,7 +871,6 @@
                     
                     const diff = Math.abs(A_rounded - S_rounded);
                     
-                    // FIXED: Use < 4 instead of <= 4
                     if (A_rounded > 0 && S_rounded > 0 && diff <= MAX_DIFF && diff > 0 && 
                         S_rounded >= 3 && S_rounded < 4) {
                         
@@ -581,67 +915,109 @@
             }
         }
 
-        function calculate() {
-            const wTotalInput = document.getElementById('wTotal');
-            const thicknessInput = document.getElementById('thickness');
-            const resultSection = document.getElementById('resultSection');
-            const errorMessage = document.getElementById('errorMessage');
+        function showBalusterError(message) {
+            const errorMessage = document.getElementById('balusterErrorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Rail Height Calculator Functions
+        function calculateRail() {
+            const riseInput = document.getElementById('rise');
+            const runInput = document.getElementById('run');
+            const railHeightInput = document.getElementById('railHeight');
+            const balustersPerTreadInput = document.getElementById('balustersPerTread');
+            const railThicknessInput = document.getElementById('railThickness');
+            const resultSection = document.getElementById('railResultSection');
+            const errorMessage = document.getElementById('railErrorMessage');
             
             resultSection.classList.remove('active');
             errorMessage.style.display = 'none';
             
-            let wTotal;
+            let rise, run, railHeight, railThickness;
             try {
-                wTotal = fractionConverter.parseFraction(wTotalInput.value);
+                rise = fractionConverter.parseFraction(riseInput.value);
+                run = fractionConverter.parseFraction(runInput.value);
+                railHeight = fractionConverter.parseFraction(railHeightInput.value);
+                railThickness = fractionConverter.parseFraction(railThicknessInput.value);
             } catch (e) {
-                showError("Please enter a valid distance (e.g., 120, 120.5, 120½).");
+                showRailError("Please enter valid numbers for all fields.");
                 return;
             }
             
-            if (isNaN(wTotal) || wTotal <= 0) {
-                showError("Please enter a valid positive number for total distance.");
+            const balustersPerTread = parseInt(balustersPerTreadInput.value);
+            
+            if (isNaN(rise) || isNaN(run) || isNaN(railHeight) || isNaN(railThickness) || isNaN(balustersPerTread)) {
+                showRailError("Please enter valid numbers for all fields.");
                 return;
             }
             
-            if (wTotal < 10) {
-                showError("Total distance should be at least 10 inches.");
+            if (rise <= 0 || run <= 0 || railHeight <= 0 || railThickness <= 0 || balustersPerTread <= 0) {
+                showRailError("All values must be positive numbers.");
                 return;
             }
             
-            const thickness = thicknessInput.value;
-            if (!thickness) {
-                showError("Please enter baluster thickness.");
-                return;
-            }
-            
-            let thicknessNum;
-            try {
-                thicknessNum = fractionConverter.parseFraction(thickness);
-            } catch (e) {
-                showError("Please enter a valid baluster thickness (e.g., 5/8, 0.625, ⅝, 1/2, 1).");
-                return;
-            }
-            
-            if (isNaN(thicknessNum) || thicknessNum <= 0) {
-                showError("Please enter a valid baluster thickness (e.g., 5/8, 0.625, ⅝, 1/2, 1).");
-                return;
-            }
-            
-            const result = calculateBaluster(wTotal, thickness);
+            const result = calculateRailHeight(rise, run, railHeight, balustersPerTread, railThickness);
             
             if (result.success) {
-                document.getElementById('resultN').textContent = result.N;
-                document.getElementById('resultC1').textContent = result.C1;
-                document.getElementById('resultStep').textContent = result.Step;
-                document.getElementById('resultType').textContent = result.type;
+                document.getElementById('rakeAngle').textContent = result.rakeAngle;
+                document.getElementById('netBalusterNosing').textContent = result.netBalusterNosing;
+                
+                for (let i = 1; i <= 3; i++) {
+                    if (result.setbacks[i-1]) {
+                        document.getElementById(`setback${i}`).textContent = result.setbacks[i-1].setback;
+                        document.getElementById(`height${i}`).textContent = result.setbacks[i-1].height;
+                    }
+                }
+                
                 resultSection.classList.add('active');
             } else {
-                showError(result.message);
+                showRailError(result.message);
             }
         }
 
-        function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
+        function calculateRailHeight(rise, run, railHeight, balustersPerTread, railThickness) {
+            try {
+                // Calculate rake angle
+                const rakeAngleRad = Math.atan(rise / run);
+                const rakeAngleDeg = (rakeAngleRad * 180 / Math.PI).toFixed(2);
+                
+                // Calculate net baluster height at nosing
+                const netBalusterNosing = railHeight - railThickness;
+                const netBalusterNosingFormatted = fractionConverter.toConstructionFraction(netBalusterNosing);
+                
+                // Calculate setbacks and heights for each baluster
+                const setbacks = [];
+                const balusterSpacing = run / balustersPerTread;
+                
+                for (let i = 1; i <= balustersPerTread; i++) {
+                    const setback = (i - 0.5) * balusterSpacing;
+                    const heightReduction = setback * Math.tan(rakeAngleRad);
+                    const netHeight = netBalusterNosing - heightReduction;
+                    
+                    setbacks.push({
+                        setback: fractionConverter.toConstructionFraction(setback),
+                        height: fractionConverter.toConstructionFraction(netHeight)
+                    });
+                }
+                
+                return {
+                    success: true,
+                    rakeAngle: `${rakeAngleDeg}°`,
+                    netBalusterNosing: netBalusterNosingFormatted,
+                    setbacks: setbacks
+                };
+                
+            } catch (error) {
+                return {
+                    success: false,
+                    message: "Calculation error: " + error.message
+                };
+            }
+        }
+
+        function showRailError(message) {
+            const errorMessage = document.getElementById('railErrorMessage');
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
         }
@@ -681,12 +1057,24 @@
             });
         }
 
+        // Event listeners for Enter key
         document.getElementById('wTotal').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculate();
+            if (e.key === 'Enter') calculateBaluster();
         });
 
         document.getElementById('thickness').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculate();
+            if (e.key === 'Enter') calculateBaluster();
+        });
+
+        // Focus on first input when tab becomes active
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                setTimeout(() => {
+                    const activeTab = document.querySelector('.tab-content.active');
+                    const firstInput = activeTab.querySelector('input');
+                    if (firstInput) firstInput.focus();
+                }, 100);
+            });
         });
 
         window.addEventListener('load', () => {
@@ -694,6 +1082,4 @@
         });
     </script>
 </body>
-
 </html>
-
