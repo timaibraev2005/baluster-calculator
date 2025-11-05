@@ -233,7 +233,7 @@
         .calculator-container {
             display: none;
             padding: 20px;
-            max-width: 500px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
@@ -326,14 +326,29 @@
         }
 
         /* ALL CALCULATOR STYLES - Black & White Theme */
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 968px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .container {
-            max-width: 420px;
-            margin: 0 auto;
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             border: 1px solid #e0e0e0;
+        }
+
+        .input-container {
+            max-width: 500px;
         }
 
         .calc-header {
@@ -591,10 +606,66 @@
             color: #000000;
         }
 
+        /* Diagram Styles */
+        .diagram-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000000;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        #railDiagram {
+            width: 100%;
+            height: 500px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #000000;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            border: 1px solid #000000;
+        }
+
         /* IMPROVED Fraction Calculator Specific Styles - Black & White */
-        #fraction-calculator .container {
-            max-width: 440px;
+        #fraction-calculator .calculator-layout {
+            grid-template-columns: 1fr;
+            max-width: 500px;
             margin: 0 auto;
+        }
+
+        #fraction-calculator .container {
+            max-width: 500px;
         }
 
         #fraction-calculator .calculator {
@@ -811,6 +882,15 @@
                 max-width: none;
                 bottom: 70px;
             }
+
+            .calculator-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            #railDiagram {
+                height: 400px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -841,6 +921,10 @@
             .setback-pair {
                 grid-template-columns: 1fr;
                 gap: 8px;
+            }
+
+            #railDiagram {
+                height: 300px;
             }
 
             /* Improved mobile styles for fraction calculator */
@@ -901,6 +985,10 @@
             #fraction-calculator .row {
                 gap: 4px;
             }
+
+            #railDiagram {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -956,7 +1044,7 @@
             <div class="catalog-card" onclick="showCalculator('rail')">
                 <div class="catalog-icon">📏</div>
                 <div class="catalog-title">Rail Height Calculator</div>
-                <div class="catalog-desc">Professional rail height and setback calculations</div>
+                <div class="catalog-desc">Professional rail height and setback calculations with visual diagram</div>
             </div>
             
             <div class="catalog-card" onclick="showCalculator('fraction')">
@@ -970,7 +1058,7 @@
     <!-- Calculator Containers -->
     <!-- Baluster Calculator -->
     <div id="baluster-calculator" class="calculator-container">
-        <div class="container">
+        <div class="container input-container">
             <div class="calc-header">
                 <h1>Baluster Calculator</h1>
                 <p>Professional spacing calculator</p>
@@ -1031,174 +1119,202 @@
 
     <!-- Rail Height Calculator -->
     <div id="rail-calculator" class="calculator-container">
-        <div class="container">
-            <div class="calc-header">
-                <h1>Rail Height Calculator</h1>
-                <p>Professional rail calculations</p>
-            </div>
+        <div class="calculator-layout">
+            <div class="container input-container">
+                <div class="calc-header">
+                    <h1>Rail Height Calculator</h1>
+                    <p>Professional rail calculations</p>
+                </div>
 
-            <div class="input-section">
-                <div class="input-group">
-                    <label for="rise">Rise (inches):</label>
-                    <input type="text" id="rise" value="6 11/16" placeholder="6 11/16">
-                    <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="run">Run (inches):</label>
-                    <input type="text" id="run" value="12" placeholder="12">
-                    <div class="input-hint">Supports: 1 1/2, 1_1/2, 1.5</div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="railHeight">Rail Height (inches):</label>
-                    <input type="text" id="railHeight" value="36 1/4" placeholder="36 1/4">
-                    <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="balustersPerTread">Baluster's Per Tread:</label>
-                    <input type="number" id="balustersPerTread" value="3" placeholder="3" min="1">
-                    <div class="input-hint">Number of balusters per step</div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="railThickness">Rail Thickness (inches):</label>
-                    <input type="text" id="railThickness" value="1 5/8" placeholder="1 5/8">
-                    <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
-                </div>
-                
-                <button class="calculate-btn" onclick="calculateRailApp()">Calculate</button>
-            </div>
-
-            <div class="result-section" id="railResultSection">
-                <div class="result-title">Basic Parameters</div>
-                <div class="basic-results">
-                    <div class="result-item">
-                        <div class="result-label">Rake Angle</div>
-                        <div class="result-value" id="rakeAngle">-</div>
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="rise">Rise (inches):</label>
+                        <input type="text" id="rise" value="6 11/16" placeholder="6 11/16">
+                        <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
                     </div>
-                    <div class="result-item">
-                        <div class="result-label">Net Baluster Height @ Nosing</div>
-                        <div class="result-value" id="netBalusterNosing">-</div>
+                    
+                    <div class="input-group">
+                        <label for="run">Run (inches):</label>
+                        <input type="text" id="run" value="12" placeholder="12">
+                        <div class="input-hint">Supports: 1 1/2, 1_1/2, 1.5</div>
                     </div>
+                    
+                    <div class="input-group">
+                        <label for="railHeight">Rail Height (inches):</label>
+                        <input type="text" id="railHeight" value="36 1/4" placeholder="36 1/4">
+                        <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="balustersPerTread">Baluster's Per Tread:</label>
+                        <input type="number" id="balustersPerTread" value="3" placeholder="3" min="1">
+                        <div class="input-hint">Number of balusters per step</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="railThickness">Rail Thickness (inches):</label>
+                        <input type="text" id="railThickness" value="1 5/8" placeholder="1 5/8">
+                        <div class="input-hint">Supports: 1 1/2, 1-1/2, 1.5</div>
+                    </div>
+                    
+                    <button class="calculate-btn" onclick="calculateRailApp()">Calculate</button>
                 </div>
 
-                <div class="setback-results">
-                    <div class="setback-title">Baluster Setbacks & Heights</div>
-                    <div class="setback-grid">
-                        <div class="setback-pair">
-                            <div class="setback-card">
-                                <div class="setback-name">Baluster Setback 1</div>
-                                <div class="setback-value" id="setback1">-</div>
-                            </div>
-                            <div class="height-card">
-                                <div class="height-name">Net Baluster Height 1</div>
-                                <div class="height-value" id="height1">-</div>
-                            </div>
+                <div class="result-section" id="railResultSection">
+                    <div class="result-title">Basic Parameters</div>
+                    <div class="basic-results">
+                        <div class="result-item">
+                            <div class="result-label">Rake Angle</div>
+                            <div class="result-value" id="rakeAngle">-</div>
                         </div>
-                        <div class="setback-pair">
-                            <div class="setback-card">
-                                <div class="setback-name">Baluster Setback 2</div>
-                                <div class="setback-value" id="setback2">-</div>
-                            </div>
-                            <div class="height-card">
-                                <div class="height-name">Net Baluster Height 2</div>
-                                <div class="height-value" id="height2">-</div>
-                            </div>
-                        </div>
-                        <div class="setback-pair">
-                            <div class="setback-card">
-                                <div class="setback-name">Baluster Setback 3</div>
-                                <div class="setback-value" id="setback3">-</div>
-                            </div>
-                            <div class="height-card">
-                                <div class="height-name">Net Baluster Height 3</div>
-                                <div class="height-value" id="height3">-</div>
-                            </div>
+                        <div class="result-item">
+                            <div class="result-label">Net Baluster Height @ Nosing</div>
+                            <div class="result-value" id="netBalusterNosing">-</div>
                         </div>
                     </div>
+
+                    <div class="setback-results">
+                        <div class="setback-title">Baluster Setbacks & Heights</div>
+                        <div class="setback-grid">
+                            <div class="setback-pair">
+                                <div class="setback-card">
+                                    <div class="setback-name">Baluster Setback 1</div>
+                                    <div class="setback-value" id="setback1">-</div>
+                                </div>
+                                <div class="height-card">
+                                    <div class="height-name">Net Baluster Height 1</div>
+                                    <div class="height-value" id="height1">-</div>
+                                </div>
+                            </div>
+                            <div class="setback-pair">
+                                <div class="setback-card">
+                                    <div class="setback-name">Baluster Setback 2</div>
+                                    <div class="setback-value" id="setback2">-</div>
+                                </div>
+                                <div class="height-card">
+                                    <div class="height-name">Net Baluster Height 2</div>
+                                    <div class="height-value" id="height2">-</div>
+                                </div>
+                            </div>
+                            <div class="setback-pair">
+                                <div class="setback-card">
+                                    <div class="setback-name">Baluster Setback 3</div>
+                                    <div class="setback-value" id="setback3">-</div>
+                                </div>
+                                <div class="height-card">
+                                    <div class="height-name">Net Baluster Height 3</div>
+                                    <div class="height-value" id="height3">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-message" id="railErrorMessage"></div>
+
+                <div class="info-section">
+                    <strong>Note:</strong> Professional rail height calculator for construction. Works completely offline. Install to home screen for best experience.
                 </div>
             </div>
 
-            <div class="error-message" id="railErrorMessage"></div>
-
-            <div class="info-section">
-                <strong>Note:</strong> Professional rail height calculator for construction. Works completely offline. Install to home screen for best experience.
+            <!-- Diagram Container -->
+            <div class="diagram-container">
+                <div class="diagram-title">Staircase Diagram</div>
+                <canvas id="railDiagram"></canvas>
+                <div class="diagram-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #000000;"></div>
+                        <span>Stair Structure</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #666666;"></div>
+                        <span>Rail</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #333333;"></div>
+                        <span>Balusters</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #999999;"></div>
+                        <span>Measurements</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Fraction Calculator -->
     <div id="fraction-calculator" class="calculator-container">
-        <div class="container">
-            <div class="calc-header">
-                <h1>Construction Fraction Calculator</h1>
-                <p>Professional fraction calculations</p>
-            </div>
-
-            <div class="calculator">
-                <div class="display">
-                    <input type="text" id="expressionInput" tabindex="-1" style="opacity: 0; height: 0; overflow: hidden;">
-                    <div id="expressionDisplay" tabindex="0"></div>
-                    <div class="result" id="fractionResult"></div>
-                    <div class="decimal-result" id="fractionDecimalResult"></div>
+        <div class="calculator-layout">
+            <div class="container">
+                <div class="calc-header">
+                    <h1>Construction Fraction Calculator</h1>
+                    <p>Professional fraction calculations</p>
                 </div>
 
-                <div class="keypad">
-                    <div class="row">
-                        <button class="btn clear" onclick="fractionCalculator.clearDisplay()">C</button>
-                        <button class="btn clear" onclick="fractionCalculator.clearEntry()">CE</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor('(')">(</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor(')')">)</button>
-                        <button class="btn backspace" onclick="fractionCalculator.backspace()">⌫</button>
+                <div class="calculator">
+                    <div class="display">
+                        <input type="text" id="expressionInput" tabindex="-1" style="opacity: 0; height: 0; overflow: hidden;">
+                        <div id="expressionDisplay" tabindex="0"></div>
+                        <div class="result" id="fractionResult"></div>
+                        <div class="decimal-result" id="fractionDecimalResult"></div>
                     </div>
-                    
-                    <div class="row">
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('7')">7</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('8')">8</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('9')">9</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor('/')">/</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor(':')">:</button>
+
+                    <div class="keypad">
+                        <div class="row">
+                            <button class="btn clear" onclick="fractionCalculator.clearDisplay()">C</button>
+                            <button class="btn clear" onclick="fractionCalculator.clearEntry()">CE</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('(')">(</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor(')')">)</button>
+                            <button class="btn backspace" onclick="fractionCalculator.backspace()">⌫</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('7')">7</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('8')">8</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('9')">9</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('/')">/</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor(':')">:</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('4')">4</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('5')">5</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('6')">6</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('*')">×</button>
+                            <button class="btn operator" onclick="fractionCalculator.moveCursorToEnd()">⏎</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('1')">1</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('2')">2</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('3')">3</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('-')">-</button>
+                            <button class="btn equals" onclick="fractionCalculator.calculate()">=</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('0')">0</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('.')">.</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor(' ')">Space</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('+')">+</button>
+                        </div>
                     </div>
-                    
-                    <div class="row">
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('4')">4</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('5')">5</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('6')">6</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor('*')">×</button>
-                        <button class="btn operator" onclick="fractionCalculator.moveCursorToEnd()">⏎</button>
-                    </div>
-                    
-                    <div class="row">
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('1')">1</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('2')">2</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('3')">3</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor('-')">-</button>
-                        <button class="btn equals" onclick="fractionCalculator.calculate()">=</button>
-                    </div>
-                    
-                    <div class="row">
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('0')">0</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor('.')">.</button>
-                        <button class="btn number" onclick="fractionCalculator.insertAtCursor(' ')">Space</button>
-                        <button class="btn operator" onclick="fractionCalculator.insertAtCursor('+')">+</button>
+
+                    <div class="examples">
+                        <h3>Example expressions:</h3>
+                        <div class="example-list">
+                            <div class="example" onclick="fractionCalculator.setExample('1/2 + 1/4')">1/2 + 1/4</div>
+                            <div class="example" onclick="fractionCalculator.setExample('2 1/2 * 3')">2 1/2 × 3</div>
+                            <div class="example" onclick="fractionCalculator.setExample('(1/2 + 3/4) * 2')">(1/2 + 3/4) × 2</div>
+                            <div class="example" onclick="fractionCalculator.setExample('3/4 : 1/2')">3/4 : 1/2</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="examples">
-                    <h3>Example expressions:</h3>
-                    <div class="example-list">
-                        <div class="example" onclick="fractionCalculator.setExample('1/2 + 1/4')">1/2 + 1/4</div>
-                        <div class="example" onclick="fractionCalculator.setExample('2 1/2 * 3')">2 1/2 × 3</div>
-                        <div class="example" onclick="fractionCalculator.setExample('(1/2 + 3/4) * 2')">(1/2 + 3/4) × 2</div>
-                        <div class="example" onclick="fractionCalculator.setExample('3/4 : 1/2')">3/4 : 1/2</div>
-                    </div>
+                <div class="info-section">
+                    <strong>Note:</strong> Professional construction fraction calculator. Works completely offline. Install to home screen for best experience.
                 </div>
-            </div>
-
-            <div class="info-section">
-                <strong>Note:</strong> Professional construction fraction calculator. Works completely offline. Install to home screen for best experience.
             </div>
         </div>
     </div>
@@ -1210,7 +1326,6 @@
         <button class="install-btn" onclick="dismissInstallPrompt()" style="background: transparent; color: white; border: 1px solid white; margin-left: 8px;">Later</button>
     </div>
 
-    <!-- ALL JAVASCRIPT CODE REMAINS EXACTLY THE SAME AS BEFORE -->
     <script>
         // PWA Installation with iOS support
         let deferredPrompt;
@@ -1372,7 +1487,7 @@
         });
     </script>
 
-    <!-- ALL THE ORIGINAL CALCULATOR SCRIPTS REMAIN EXACTLY THE SAME -->
+    <!-- ALL THE ORIGINAL CALCULATOR SCRIPTS -->
     <script>
         // Improved fraction handling system
         class FractionConverter {
@@ -1713,12 +1828,135 @@
         });
     </script>
 
-    <!-- Rail Height Calculator Script -->
+    <!-- Rail Height Calculator Script with Diagram -->
     <script>
         // Use the same FractionConverter as baluster calculator
         const railFractionConverter = fractionConverter;
 
-        // Calculation functions from original app.js
+        // Diagram rendering function
+        function drawRailDiagram(data) {
+            const canvas = document.getElementById('railDiagram');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            const width = canvas.offsetWidth;
+            const height = canvas.offsetHeight;
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Scale factors
+            const scaleX = width / 50;
+            const scaleY = height / 40;
+            
+            // Starting position
+            const startX = 50;
+            const startY = height - 50;
+            
+            // Draw stair structure
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            
+            // Draw rise (vertical)
+            const riseScaled = data.rise * scaleY;
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(startX, startY - riseScaled);
+            ctx.stroke();
+            
+            // Draw run (horizontal)
+            const runScaled = data.run * scaleX;
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(startX + runScaled, startY);
+            ctx.stroke();
+            
+            // Draw rail
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 3;
+            const railHeightScaled = data.railHeight * scaleY;
+            ctx.beginPath();
+            ctx.moveTo(startX, startY - railHeightScaled);
+            ctx.lineTo(startX + runScaled, startY - railHeightScaled + (data.rise * scaleY));
+            ctx.stroke();
+            
+            // Draw balusters
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 2;
+            
+            const setbacks = [data.setback1, data.setback2, data.setback3];
+            const heights = [data.height1, data.height2, data.height3];
+            
+            setbacks.forEach((setback, index) => {
+                const x = startX + setback * scaleX;
+                const baseY = startY;
+                const topY = startY - heights[index] * scaleY;
+                
+                // Draw baluster
+                ctx.beginPath();
+                ctx.moveTo(x, baseY);
+                ctx.lineTo(x, topY);
+                ctx.stroke();
+                
+                // Draw baluster top connection to rail
+                ctx.strokeStyle = '#666666';
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(x, topY);
+                ctx.lineTo(x + (runScaled - setback * scaleX) * 0.2, topY - (railHeightScaled - heights[index] * scaleY) * 0.2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.strokeStyle = '#333333';
+            });
+            
+            // Draw measurements
+            ctx.strokeStyle = '#999999';
+            ctx.lineWidth = 1;
+            ctx.fillStyle = '#000000';
+            ctx.font = '10px Arial';
+            
+            // Rise measurement
+            ctx.beginPath();
+            ctx.moveTo(startX - 20, startY);
+            ctx.lineTo(startX - 20, startY - riseScaled);
+            ctx.stroke();
+            ctx.fillText(`Rise: ${data.rise}"`, startX - 45, startY - riseScaled / 2);
+            
+            // Run measurement
+            ctx.beginPath();
+            ctx.moveTo(startX, startY + 20);
+            ctx.lineTo(startX + runScaled, startY + 20);
+            ctx.stroke();
+            ctx.fillText(`Run: ${data.run}"`, startX + runScaled / 2 - 20, startY + 35);
+            
+            // Rail height measurement
+            ctx.beginPath();
+            ctx.moveTo(startX - 40, startY);
+            ctx.lineTo(startX - 40, startY - railHeightScaled);
+            ctx.stroke();
+            ctx.fillText(`Rail: ${data.railHeight}"`, startX - 65, startY - railHeightScaled / 2);
+            
+            // Angle measurement
+            const angle = Math.atan(data.rise / data.run) * (180 / Math.PI);
+            ctx.fillText(`Angle: ${angle.toFixed(1)}°`, startX + runScaled / 2, startY - railHeightScaled / 2);
+            
+            // Draw labels
+            ctx.fillStyle = '#000000';
+            ctx.font = '12px Arial';
+            ctx.fillText('Stair Nosing', startX + 10, startY + 15);
+            ctx.fillText('Handrail', startX + runScaled / 2, startY - railHeightScaled - 10);
+            
+            // Draw baluster labels
+            setbacks.forEach((setback, index) => {
+                const x = startX + setback * scaleX;
+                ctx.fillText(`B${index + 1}`, x - 5, startY + 15);
+                ctx.fillText(`H: ${heights[index]}"`, x - 15, startY - heights[index] * scaleY - 5);
+            });
+        }
+
+        // Calculation functions
         function calculateRakeAngle(rise, run) {
             try {
                 const riseNum = railFractionConverter.parseFraction(rise);
@@ -1865,10 +2103,10 @@
             
             try {
                 // Validate fraction parsing
-                railFractionConverter.parseFraction(rise);
-                railFractionConverter.parseFraction(run);
-                railFractionConverter.parseFraction(railHeight);
-                railFractionConverter.parseFraction(railThickness);
+                const riseNum = railFractionConverter.parseFraction(rise);
+                const runNum = railFractionConverter.parseFraction(run);
+                const railHeightNum = railFractionConverter.parseFraction(railHeight);
+                const railThicknessNum = railFractionConverter.parseFraction(railThickness);
                 
                 // Calculate results
                 const rakeAngle = calculateRakeAngle(rise, run);
@@ -1891,6 +2129,23 @@
                 document.getElementById('height3').textContent = height3;
                 
                 resultSection.classList.add('active');
+                
+                // Draw diagram with numerical data
+                const diagramData = {
+                    rise: riseNum,
+                    run: runNum,
+                    railHeight: railHeightNum,
+                    railThickness: railThicknessNum,
+                    setback1: railFractionConverter.parseFraction(setback1),
+                    setback2: railFractionConverter.parseFraction(setback2),
+                    setback3: railFractionConverter.parseFraction(setback3),
+                    height1: railFractionConverter.parseFraction(height1),
+                    height2: railFractionConverter.parseFraction(height2),
+                    height3: railFractionConverter.parseFraction(height3)
+                };
+                
+                drawRailDiagram(diagramData);
+                
             } catch (error) {
                 showRailError("Please check your input values. Supported formats: 6 11/16, 6-11/16, 6.6875, etc.");
             }
@@ -1921,6 +2176,25 @@
 
         document.getElementById('railThickness').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') calculateRailApp();
+        });
+
+        // Initial diagram with default values
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const defaultDiagramData = {
+                    rise: 6.6875, // 6 11/16
+                    run: 12,
+                    railHeight: 36.25, // 36 1/4
+                    railThickness: 1.625, // 1 5/8
+                    setback1: 2,
+                    setback2: 6,
+                    setback3: 10,
+                    height1: 35.5,
+                    height2: 36.2,
+                    height3: 36.9
+                };
+                drawRailDiagram(defaultDiagramData);
+            }, 1000);
         });
     </script>
 
