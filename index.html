@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Construction Calculator</title>
-    <meta name="description" content="Professional construction calculators for baluster spacing and rail height">
+    <meta name="description" content="Professional construction calculators for baluster spacing, rail height and fractions">
     <meta name="theme-color" content="#1a365d">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" href="./icons/icon-192.png">
@@ -391,6 +391,180 @@
             color: #2d3748;
         }
 
+        /* Fraction Calculator Specific Styles */
+        #fraction-calculator .display {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            min-height: 120px;
+        }
+
+        #fraction-calculator #expressionDisplay {
+            font-size: 1.4rem;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+            min-height: 1.8em;
+            padding: 10px 0;
+            cursor: text;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        #fraction-calculator .cursor {
+            display: inline-block;
+            width: 2px;
+            background-color: #4299e1;
+            height: 1.4em;
+            vertical-align: middle;
+            margin: 0 1px;
+            animation: blink 1s infinite;
+        }
+
+        #fraction-calculator .result {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #2d3748;
+            min-height: 50px;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        #fraction-calculator .decimal-result {
+            font-size: 1.1rem;
+            color: #718096;
+            min-height: 25px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        #fraction-calculator .keypad {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        #fraction-calculator .row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        #fraction-calculator .btn {
+            padding: 16px 8px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            color: #2d3748;
+        }
+
+        #fraction-calculator .btn:active {
+            transform: translateY(0);
+        }
+
+        #fraction-calculator .number {
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        #fraction-calculator .number:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        #fraction-calculator .operator {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+
+        #fraction-calculator .operator:hover {
+            background: #3182ce;
+            border-color: #3182ce;
+        }
+
+        #fraction-calculator .equals {
+            background: #48bb78;
+            color: white;
+            border-color: #48bb78;
+        }
+
+        #fraction-calculator .equals:hover {
+            background: #38a169;
+            border-color: #38a169;
+        }
+
+        #fraction-calculator .clear {
+            background: #f56565;
+            color: white;
+            border-color: #f56565;
+        }
+
+        #fraction-calculator .clear:hover {
+            background: #e53e3e;
+            border-color: #e53e3e;
+        }
+
+        #fraction-calculator .backspace {
+            background: #ed8936;
+            color: white;
+            border-color: #ed8936;
+        }
+
+        #fraction-calculator .backspace:hover {
+            background: #dd6b20;
+            border-color: #dd6b20;
+        }
+
+        #fraction-calculator .examples {
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        #fraction-calculator .examples h3 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        #fraction-calculator .example-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        #fraction-calculator .example {
+            background: #ebf8ff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #2b6cb0;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #bee3f8;
+            font-weight: 500;
+        }
+
+        #fraction-calculator .example:hover {
+            background: #bee3f8;
+            transform: translateY(-1px);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -425,6 +599,23 @@
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
+
+            #fraction-calculator #expressionDisplay {
+                font-size: 1.2rem;
+            }
+            
+            #fraction-calculator .result {
+                font-size: 1.6rem;
+            }
+            
+            #fraction-calculator .btn {
+                padding: 14px 6px;
+                font-size: 1.1rem;
+            }
+            
+            #fraction-calculator .example-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -440,6 +631,9 @@
         </div>
         <div class="nav-item" onclick="showCalculator('rail')">
             <span class="nav-icon">📏</span> Rail Height Calculator
+        </div>
+        <div class="nav-item" onclick="showCalculator('fraction')">
+            <span class="nav-icon">➗</span> Fraction Calculator
         </div>
     </div>
 
@@ -605,6 +799,80 @@
                 </div>
             </div>
         </div>
+
+        <!-- Fraction Calculator -->
+        <div id="fraction-calculator" class="calculator-container">
+            <div class="container">
+                <div class="header">
+                    <h1>Construction Fraction Calculator</h1>
+                    <p>Professional fraction calculations</p>
+                </div>
+
+                <div class="calculator">
+                    <div class="display">
+                        <input type="text" id="expressionInput" tabindex="-1" style="opacity: 0; height: 0; overflow: hidden;">
+                        <div id="expressionDisplay" tabindex="0"></div>
+                        <div class="result" id="fractionResult"></div>
+                        <div class="decimal-result" id="fractionDecimalResult"></div>
+                    </div>
+
+                    <div class="keypad">
+                        <div class="row">
+                            <button class="btn clear" onclick="fractionCalculator.clearDisplay()">C</button>
+                            <button class="btn clear" onclick="fractionCalculator.clearEntry()">CE</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('(')">(</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor(')')">)</button>
+                            <button class="btn backspace" onclick="fractionCalculator.backspace()">⌫</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('7')">7</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('8')">8</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('9')">9</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('/')">/</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor(':')">:</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('4')">4</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('5')">5</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('6')">6</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('*')">×</button>
+                            <button class="btn operator" onclick="fractionCalculator.moveCursorToEnd()">⏎</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('1')">1</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('2')">2</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('3')">3</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('-')">-</button>
+                            <button class="btn equals" onclick="fractionCalculator.calculate()">=</button>
+                        </div>
+                        
+                        <div class="row">
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('0')">0</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor('.')">.</button>
+                            <button class="btn number" onclick="fractionCalculator.insertAtCursor(' ')">Space</button>
+                            <button class="btn operator" onclick="fractionCalculator.insertAtCursor('+')">+</button>
+                        </div>
+                    </div>
+
+                    <div class="examples">
+                        <h3>Example expressions:</h3>
+                        <div class="example-list">
+                            <div class="example" onclick="fractionCalculator.setExample('1/2 + 1/4')">1/2 + 1/4</div>
+                            <div class="example" onclick="fractionCalculator.setExample('2 1/2 * 3')">2 1/2 × 3</div>
+                            <div class="example" onclick="fractionCalculator.setExample('(1/2 + 3/4) * 2')">(1/2 + 3/4) × 2</div>
+                            <div class="example" onclick="fractionCalculator.setExample('3/4 : 1/2')">3/4 : 1/2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <strong>Note:</strong> Professional construction fraction calculator. Works completely offline. Install to home screen for best experience.
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="install-prompt" id="installPrompt">
@@ -630,6 +898,13 @@
             
             // Add active class to clicked nav item
             event.target.classList.add('active');
+
+            // Initialize fraction calculator if it's selected
+            if (calculatorType === 'fraction' && typeof fractionCalculator !== 'undefined') {
+                setTimeout(() => {
+                    fractionCalculator.expressionDisplay.focus();
+                }, 100);
+            }
         }
 
         // PWA Installation
@@ -668,7 +943,7 @@
         }
     </script>
 
-    <!-- Baluster Calculator Script (ORIGINAL) -->
+    <!-- Baluster Calculator Script -->
     <script>
         // Improved fraction handling system
         class FractionConverter {
@@ -1009,7 +1284,7 @@
         });
     </script>
 
-    <!-- Rail Height Calculator Script (CORRECTED VERSION) -->
+    <!-- Rail Height Calculator Script -->
     <script>
         // Use the same FractionConverter as baluster calculator
         const railFractionConverter = fractionConverter;
@@ -1217,6 +1492,381 @@
 
         document.getElementById('railThickness').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') calculateRailApp();
+        });
+    </script>
+
+    <!-- Fraction Calculator Script -->
+    <script>
+        class FractionCalculator {
+            constructor() {
+                this.expressionInput = document.getElementById('expressionInput');
+                this.expressionDisplay = document.getElementById('expressionDisplay');
+                this.resultDisplay = document.getElementById('fractionResult');
+                this.decimalResultDisplay = document.getElementById('fractionDecimalResult');
+                this.cursorPosition = 0;
+                this.expression = '';
+                this.cursorInterval = null;
+                this.init();
+            }
+
+            init() {
+                // Load saved expression on load
+                const savedExpression = localStorage.getItem('fractionExpression');
+                if (savedExpression) {
+                    this.expression = savedExpression;
+                    this.cursorPosition = this.expression.length;
+                    this.updateDisplay();
+                    this.calculate();
+                }
+
+                // Keyboard handling for display
+                this.expressionDisplay.addEventListener('keydown', (e) => this.handleKeyboard(e));
+                this.expressionDisplay.addEventListener('click', (e) => this.handleClick(e));
+                
+                // Focus management
+                this.expressionDisplay.addEventListener('focus', () => {
+                    this.startCursorBlink();
+                });
+                
+                this.expressionDisplay.addEventListener('blur', () => {
+                    this.stopCursorBlink();
+                });
+
+                // Sync with hidden input for mobile keyboards
+                this.expressionInput.addEventListener('input', (e) => {
+                    this.expression = e.target.value;
+                    this.cursorPosition = this.expression.length;
+                    this.updateDisplay();
+                    this.calculate();
+                });
+
+                // Initial focus
+                this.expressionDisplay.focus();
+            }
+
+            startCursorBlink() {
+                this.stopCursorBlink();
+                this.cursorInterval = setInterval(() => {
+                    const cursor = document.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+                    }
+                }, 500);
+            }
+
+            stopCursorBlink() {
+                if (this.cursorInterval) {
+                    clearInterval(this.cursorInterval);
+                    const cursor = document.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = '1';
+                    }
+                }
+            }
+
+            handleClick(e) {
+                const rect = this.expressionDisplay.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                this.setCursorByClick(clickX);
+                this.expressionDisplay.focus();
+                this.startCursorBlink();
+            }
+
+            setCursorByClick(clickX) {
+                const text = this.expression;
+                let closestPosition = 0;
+                let minDistance = Infinity;
+                
+                // Create temporary element to measure text widths
+                const tempElement = document.createElement('span');
+                tempElement.style.font = getComputedStyle(this.expressionDisplay).font;
+                tempElement.style.whiteSpace = 'pre';
+                document.body.appendChild(tempElement);
+                
+                // Find the closest character position
+                for (let i = 0; i <= text.length; i++) {
+                    tempElement.textContent = text.substring(0, i);
+                    const width = tempElement.offsetWidth;
+                    const distance = Math.abs(clickX - width);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestPosition = i;
+                    }
+                }
+                
+                document.body.removeChild(tempElement);
+                
+                this.cursorPosition = closestPosition;
+                this.updateDisplay();
+            }
+
+            handleKeyboard(e) {
+                const key = e.key;
+                
+                // Numbers and operators
+                if (/[\d\.\+\-\*\/\(\):]/.test(key)) {
+                    e.preventDefault();
+                    this.insertAtCursor(key);
+                }
+                // Space
+                else if (key === ' ' || key === 'Spacebar') {
+                    e.preventDefault();
+                    this.insertAtCursor(' ');
+                }
+                // Enter or =
+                else if (key === 'Enter' || key === '=') {
+                    e.preventDefault();
+                    this.calculate();
+                }
+                // Backspace
+                else if (key === 'Backspace') {
+                    e.preventDefault();
+                    this.backspace();
+                }
+                // Escape
+                else if (key === 'Escape') {
+                    e.preventDefault();
+                    this.clearDisplay();
+                }
+                // Arrow keys
+                else if (key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.moveCursor(-1);
+                }
+                else if (key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.moveCursor(1);
+                }
+                else if (key === 'Home') {
+                    e.preventDefault();
+                    this.cursorPosition = 0;
+                    this.updateDisplay();
+                }
+                else if (key === 'End') {
+                    e.preventDefault();
+                    this.cursorPosition = this.expression.length;
+                    this.updateDisplay();
+                }
+                // Tab
+                else if (key === 'Tab') {
+                    e.preventDefault();
+                    this.cursorPosition = this.expression.length;
+                    this.updateDisplay();
+                }
+            }
+
+            insertAtCursor(value) {
+                this.expression = this.expression.slice(0, this.cursorPosition) + value + this.expression.slice(this.cursorPosition);
+                this.cursorPosition += value.length;
+                this.updateDisplay();
+                this.calculate();
+            }
+
+            moveCursor(steps) {
+                this.cursorPosition = Math.max(0, Math.min(this.expression.length, this.cursorPosition + steps));
+                this.updateDisplay();
+            }
+
+            moveCursorToEnd() {
+                this.cursorPosition = this.expression.length;
+                this.updateDisplay();
+                this.expressionDisplay.focus();
+            }
+
+            clearDisplay() {
+                this.expression = '';
+                this.cursorPosition = 0;
+                this.resultDisplay.textContent = '';
+                this.decimalResultDisplay.textContent = '';
+                this.updateDisplay();
+                this.saveExpression();
+                this.expressionDisplay.focus();
+            }
+
+            clearEntry() {
+                if (this.cursorPosition > 0) {
+                    this.expression = this.expression.slice(0, this.cursorPosition - 1) + this.expression.slice(this.cursorPosition);
+                    this.cursorPosition--;
+                    this.updateDisplay();
+                    this.calculate();
+                }
+                this.expressionDisplay.focus();
+            }
+
+            backspace() {
+                this.clearEntry();
+            }
+
+            setExample(expression) {
+                this.expression = expression;
+                this.cursorPosition = expression.length;
+                this.updateDisplay();
+                this.saveExpression();
+                this.calculate();
+                this.expressionDisplay.focus();
+            }
+
+            updateDisplay() {
+                // Update hidden input
+                this.expressionInput.value = this.expression;
+                
+                // Update visible display with cursor
+                const beforeCursor = this.expression.slice(0, this.cursorPosition);
+                const afterCursor = this.expression.slice(this.cursorPosition);
+                
+                this.expressionDisplay.innerHTML = '';
+                
+                const beforeSpan = document.createElement('span');
+                beforeSpan.textContent = beforeCursor;
+                this.expressionDisplay.appendChild(beforeSpan);
+                
+                const cursorSpan = document.createElement('span');
+                cursorSpan.className = 'cursor';
+                this.expressionDisplay.appendChild(cursorSpan);
+                
+                const afterSpan = document.createElement('span');
+                afterSpan.textContent = afterCursor;
+                this.expressionDisplay.appendChild(afterSpan);
+                
+                this.saveExpression();
+                
+                // Restart cursor blinking
+                this.startCursorBlink();
+            }
+
+            calculate() {
+                const expression = this.expression.trim();
+                
+                if (!expression) {
+                    this.resultDisplay.textContent = '';
+                    this.decimalResultDisplay.textContent = '';
+                    return;
+                }
+
+                try {
+                    // Replace : with / and process expression
+                    const processedExpr = this.processExpression(expression.replace(/:/g, '/'));
+                    const decimalResult = this.evaluateExpression(processedExpr);
+                    const fractionResult = this.decimalToFraction(decimalResult);
+
+                    this.resultDisplay.textContent = fractionResult;
+                    this.decimalResultDisplay.textContent = `= ${decimalResult.toFixed(6)}`;
+                    this.resultDisplay.style.color = '#2d3748';
+                } catch (error) {
+                    this.resultDisplay.textContent = 'Error in expression';
+                    this.resultDisplay.style.color = '#e53e3e';
+                    this.decimalResultDisplay.textContent = '';
+                }
+            }
+
+            processExpression(expr) {
+                const fractionRegex = /(\d+)\s+(\d+\/\d+)|\d+\/\d+|\d+\.\d+|\d+/g;
+                
+                return expr.replace(fractionRegex, (match) => {
+                    if (match.includes(' ')) {
+                        const parts = match.split(' ');
+                        const whole = parseFloat(parts[0]);
+                        const fractionParts = parts[1].split('/');
+                        const numerator = parseFloat(fractionParts[0]);
+                        const denominator = parseFloat(fractionParts[1]);
+                        return (whole + numerator/denominator).toString();
+                    }
+                    else if (match.includes('/')) {
+                        const fractionParts = match.split('/');
+                        const numerator = parseFloat(fractionParts[0]);
+                        const denominator = parseFloat(fractionParts[1]);
+                        if (denominator === 0) throw new Error('Division by zero');
+                        return (numerator/denominator).toString();
+                    }
+                    else {
+                        return match;
+                    }
+                });
+            }
+
+            evaluateExpression(expr) {
+                try {
+                    const safeExpr = expr.replace(/[^-()\d/*+.]/g, '');
+                    const result = Function('"use strict"; return (' + safeExpr + ')')();
+                    
+                    if (typeof result !== 'number' || !isFinite(result)) {
+                        throw new Error('Invalid result');
+                    }
+                    
+                    return result;
+                } catch (error) {
+                    throw new Error('Calculation error');
+                }
+            }
+
+            decimalToFraction(decimal) {
+                if (decimal === 0) return '0';
+                if (Math.abs(decimal) < 0.000001) return '0';
+                
+                const tolerance = 1.0E-6;
+                let h1 = 1, h2 = 0;
+                let k1 = 0, k2 = 1;
+                let b = Math.abs(decimal);
+                let negative = decimal < 0;
+                
+                do {
+                    const a = Math.floor(b);
+                    let aux = h1;
+                    h1 = a * h1 + h2;
+                    h2 = aux;
+                    aux = k1;
+                    k1 = a * k1 + k2;
+                    k2 = aux;
+                    b = 1 / (b - a);
+                } while (Math.abs(Math.abs(decimal) - h1/k1) > Math.abs(decimal) * tolerance);
+                
+                let numerator = h1;
+                let denominator = k1;
+                
+                const gcd = this.findGCD(numerator, denominator);
+                numerator /= gcd;
+                denominator /= gcd;
+                
+                const wholePart = Math.floor(numerator / denominator);
+                const remainder = numerator % denominator;
+                
+                let result = '';
+                if (negative) result += '-';
+                
+                if (wholePart === 0) {
+                    result += remainder === 0 ? '0' : `${Math.abs(remainder)}/${Math.abs(denominator)}`;
+                } else {
+                    result += wholePart.toString();
+                    if (remainder !== 0) {
+                        result += ` ${Math.abs(remainder)}/${Math.abs(denominator)}`;
+                    }
+                }
+                
+                return result;
+            }
+
+            findGCD(a, b) {
+                a = Math.abs(a);
+                b = Math.abs(b);
+                while (b !== 0) {
+                    const temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            }
+
+            saveExpression() {
+                localStorage.setItem('fractionExpression', this.expression);
+            }
+        }
+
+        // Initialize Fraction Calculator when page loads
+        let fractionCalculator;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fractionCalculator = new FractionCalculator();
         });
     </script>
 </body>
