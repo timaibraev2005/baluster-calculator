@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MW Design Workshop Staircase Installation Calculator</title>
     <meta name="description" content="Professional staircase installation calculators for baluster spacing, rail height and fractions">
-    <meta name="theme-color" content="#1a365d">
+    <meta name="theme-color" content="#000000">
     
     <!-- Apple-specific meta tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,7 +17,7 @@
     <!-- Additional iOS meta tags -->
     <meta name="format-detection" content="telephone=no">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="msapplication-TileColor" content="#1a365d">
+    <meta name="msapplication-TileColor" content="#000000">
     <meta name="msapplication-tap-highlight" content="no">
     
     <link rel="manifest" href="./manifest.json">
@@ -31,22 +31,23 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: #ffffff;
             min-height: 100vh;
-            color: #333;
+            color: #000000;
         }
 
         /* Header with Hamburger */
         .header {
-            background: #1a365d;
+            background: #000000;
             color: white;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
             z-index: 100;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .hamburger {
@@ -58,7 +59,7 @@
         }
 
         .hamburger:hover {
-            background: #2d3748;
+            background: #333333;
         }
 
         .header-title {
@@ -73,13 +74,14 @@
             left: -300px;
             width: 280px;
             height: 100vh;
-            background: #1a365d;
+            background: #000000;
             color: white;
             padding: 70px 0 20px;
             transition: left 0.3s ease;
             z-index: 99;
             box-shadow: 5px 0 15px rgba(0,0,0,0.3);
             overflow-y: auto;
+            border-right: 1px solid #333333;
         }
 
         .sidebar.active {
@@ -88,7 +90,7 @@
 
         .sidebar-header {
             padding: 0 20px 20px;
-            border-bottom: 1px solid #2d3748;
+            border-bottom: 1px solid #333333;
             margin-bottom: 20px;
         }
 
@@ -101,6 +103,7 @@
         .sidebar-header p {
             opacity: 0.8;
             font-size: 0.9rem;
+            color: #cccccc;
         }
 
         .nav-item {
@@ -110,15 +113,16 @@
             border-left: 4px solid transparent;
             display: flex;
             align-items: center;
+            color: #ffffff;
         }
 
         .nav-item:hover {
-            background: #2d3748;
+            background: #333333;
         }
 
         .nav-item.active {
-            background: #2d3748;
-            border-left-color: #4299e1;
+            background: #333333;
+            border-left-color: #ffffff;
         }
 
         .nav-icon {
@@ -133,7 +137,7 @@
 
         .back-to-catalog {
             margin-top: 20px;
-            border-top: 1px solid #2d3748;
+            border-top: 1px solid #333333;
             padding-top: 20px;
         }
 
@@ -163,7 +167,7 @@
         .catalog-header {
             text-align: center;
             margin-bottom: 40px;
-            color: white;
+            color: #000000;
         }
 
         .catalog-header h1 {
@@ -175,7 +179,7 @@
 
         .catalog-header p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            color: #666666;
         }
 
         .catalog-grid {
@@ -187,10 +191,10 @@
 
         .catalog-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
@@ -198,27 +202,30 @@
             align-items: center;
             justify-content: center;
             min-height: 250px;
+            border: 1px solid #e0e0e0;
         }
 
         .catalog-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #000000;
         }
 
         .catalog-icon {
             font-size: 3.5rem;
             margin-bottom: 20px;
+            color: #000000;
         }
 
         .catalog-title {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #1a365d;
+            color: #000000;
         }
 
         .catalog-desc {
-            color: #666;
+            color: #666666;
             line-height: 1.5;
         }
 
@@ -241,17 +248,17 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #48bb78, #38a169);
+            background: #000000;
             color: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-align: center;
             display: none;
             z-index: 1000;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             max-width: 300px;
             animation: slideUp 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 1px solid #333333;
         }
 
         .install-prompt strong {
@@ -264,24 +271,26 @@
             margin: 8px 0;
             font-size: 0.95rem;
             opacity: 0.9;
+            color: #cccccc;
         }
 
         .install-btn {
             background: white;
-            color: #48bb78;
+            color: #000000;
             border: none;
             padding: 12px 24px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
             margin-top: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #000000;
         }
 
         .install-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .install-btn:active {
@@ -316,21 +325,23 @@
             }
         }
 
-        /* ALL ORIGINAL CALCULATOR STYLES REMAIN EXACTLY THE SAME */
+        /* ALL CALCULATOR STYLES - Black & White Theme */
         .container {
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
+            border: 1px solid #e0e0e0;
         }
 
         .calc-header {
-            background: #1a365d;
+            background: #000000;
             color: white;
             padding: 25px 20px;
             text-align: center;
+            border-bottom: 1px solid #333333;
         }
 
         .calc-header h1 {
@@ -342,6 +353,7 @@
         .calc-header p {
             opacity: 0.9;
             font-size: 1rem;
+            color: #cccccc;
         }
 
         .input-section {
@@ -356,30 +368,31 @@
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: #2d3748;
+            color: #000000;
             font-size: 1rem;
         }
 
         input {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             font-size: 18px;
             transition: all 0.3s ease;
-            background: #f7fafc;
+            background: #f8f8f8;
+            color: #000000;
         }
 
         input:focus {
             outline: none;
-            border-color: #4299e1;
+            border-color: #000000;
             background: white;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
         }
 
         .input-hint {
             font-size: 0.8rem;
-            color: #718096;
+            color: #666666;
             margin-top: 5px;
             font-style: italic;
         }
@@ -392,35 +405,38 @@
         }
 
         .example-tag {
-            background: #e2e8f0;
+            background: #f0f0f0;
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 0.8rem;
             cursor: pointer;
             transition: background 0.2s;
+            color: #000000;
+            border: 1px solid #e0e0e0;
         }
 
         .example-tag:hover {
-            background: #cbd5e0;
+            background: #e0e0e0;
         }
 
         .calculate-btn {
             width: 100%;
-            background: linear-gradient(135deg, #4299e1, #3182ce);
+            background: #000000;
             color: white;
             border: none;
             padding: 18px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
+            border: 1px solid #000000;
         }
 
         .calculate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(66, 153, 225, 0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
 
         .calculate-btn:active {
@@ -429,8 +445,8 @@
 
         .result-section {
             padding: 25px;
-            background: #f7fafc;
-            border-top: 2px solid #e2e8f0;
+            background: #f8f8f8;
+            border-top: 2px solid #e0e0e0;
             display: none;
         }
 
@@ -442,7 +458,7 @@
         .result-title {
             text-align: center;
             margin-bottom: 20px;
-            color: #2d3748;
+            color: #000000;
             font-size: 1.3rem;
             font-weight: 700;
         }
@@ -457,14 +473,14 @@
             text-align: center;
             padding: 20px;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
         }
 
         .result-label {
             font-size: 0.9rem;
-            color: #718096;
+            color: #666666;
             margin-bottom: 8px;
             font-weight: 600;
         }
@@ -472,26 +488,27 @@
         .result-value {
             font-size: 1.4rem;
             font-weight: 800;
-            color: #2d3748;
+            color: #000000;
         }
 
         .error-message {
-            background: #fed7d7;
-            color: #c53030;
+            background: #f8f8f8;
+            color: #000000;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 8px;
             text-align: center;
             margin: 20px;
             display: none;
-            border: 1px solid #feb2b2;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #000000;
         }
 
         .info-section {
             padding: 20px;
-            background: #ebf8ff;
-            border-top: 2px solid #bee3f8;
+            background: #f8f8f8;
+            border-top: 2px solid #e0e0e0;
             font-size: 0.9rem;
-            color: #2c5282;
+            color: #666666;
             line-height: 1.5;
         }
 
@@ -504,16 +521,16 @@
         }
 
         .setback-results {
-            background: #ebf8ff;
-            border-radius: 12px;
+            background: #f8f8f8;
+            border-radius: 8px;
             padding: 20px;
-            border: 1px solid #bee3f8;
+            border: 1px solid #e0e0e0;
         }
 
         .setback-title {
             text-align: center;
             margin-bottom: 20px;
-            color: #2c5282;
+            color: #000000;
             font-size: 1.1rem;
             font-weight: 700;
         }
@@ -534,14 +551,14 @@
             text-align: center;
             padding: 15px;
             background: white;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
 
         .setback-name {
             font-size: 0.85rem;
-            color: #4a5568;
+            color: #666666;
             font-weight: 600;
             margin-bottom: 5px;
         }
@@ -549,21 +566,21 @@
         .setback-value {
             font-size: 1.1rem;
             font-weight: 800;
-            color: #2d3748;
+            color: #000000;
         }
 
         .height-card {
             text-align: center;
             padding: 15px;
             background: white;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
 
         .height-name {
             font-size: 0.85rem;
-            color: #4a5568;
+            color: #666666;
             font-weight: 600;
             margin-bottom: 5px;
         }
@@ -571,12 +588,12 @@
         .height-value {
             font-size: 1.1rem;
             font-weight: 800;
-            color: #2d3748;
+            color: #000000;
         }
 
-        /* IMPROVED Fraction Calculator Specific Styles */
+        /* IMPROVED Fraction Calculator Specific Styles - Black & White */
         #fraction-calculator .container {
-            max-width: 420px;
+            max-width: 440px;
             margin: 0 auto;
         }
 
@@ -585,9 +602,9 @@
         }
 
         #fraction-calculator .display {
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             padding: 20px;
             margin: 20px 0 25px;
             min-height: 120px;
@@ -596,7 +613,7 @@
 
         #fraction-calculator #expressionDisplay {
             font-size: 1.4rem;
-            color: #2d3748;
+            color: #000000;
             font-family: 'Courier New', monospace;
             min-height: 1.8em;
             padding: 10px 0;
@@ -610,7 +627,7 @@
         #fraction-calculator .cursor {
             display: inline-block;
             width: 2px;
-            background-color: #4299e1;
+            background-color: #000000;
             height: 1.4em;
             vertical-align: middle;
             margin: 0 1px;
@@ -620,7 +637,7 @@
         #fraction-calculator .result {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #2d3748;
+            color: #000000;
             min-height: 50px;
             padding: 10px 0;
             text-align: center;
@@ -628,7 +645,7 @@
 
         #fraction-calculator .decimal-result {
             font-size: 1.1rem;
-            color: #718096;
+            color: #666666;
             min-height: 25px;
             text-align: center;
             font-style: italic;
@@ -650,15 +667,15 @@
         #fraction-calculator .btn {
             padding: 16px 8px;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             outline: none;
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
-            color: #2d3748;
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            color: #000000;
         }
 
         #fraction-calculator .btn:active {
@@ -666,67 +683,67 @@
         }
 
         #fraction-calculator .number {
-            background: #f7fafc;
-            color: #2d3748;
+            background: #f8f8f8;
+            color: #000000;
         }
 
         #fraction-calculator .number:hover {
-            background: #edf2f7;
-            border-color: #cbd5e0;
+            background: #e8e8e8;
+            border-color: #cccccc;
         }
 
         #fraction-calculator .operator {
-            background: #4299e1;
+            background: #000000;
             color: white;
-            border-color: #4299e1;
+            border-color: #000000;
         }
 
         #fraction-calculator .operator:hover {
-            background: #3182ce;
-            border-color: #3182ce;
+            background: #333333;
+            border-color: #333333;
         }
 
         #fraction-calculator .equals {
-            background: #48bb78;
+            background: #000000;
             color: white;
-            border-color: #48bb78;
+            border-color: #000000;
         }
 
         #fraction-calculator .equals:hover {
-            background: #38a169;
-            border-color: #38a169;
+            background: #333333;
+            border-color: #333333;
         }
 
         #fraction-calculator .clear {
-            background: #f56565;
+            background: #333333;
             color: white;
-            border-color: #f56565;
+            border-color: #333333;
         }
 
         #fraction-calculator .clear:hover {
-            background: #e53e3e;
-            border-color: #e53e3e;
+            background: #666666;
+            border-color: #666666;
         }
 
         #fraction-calculator .backspace {
-            background: #ed8936;
+            background: #666666;
             color: white;
-            border-color: #ed8936;
+            border-color: #666666;
         }
 
         #fraction-calculator .backspace:hover {
-            background: #dd6b20;
-            border-color: #dd6b20;
+            background: #888888;
+            border-color: #888888;
         }
 
         #fraction-calculator .examples {
-            border-top: 2px solid #e2e8f0;
+            border-top: 2px solid #e0e0e0;
             padding: 20px 5px 0;
             margin: 0 5px;
         }
 
         #fraction-calculator .examples h3 {
-            color: #2d3748;
+            color: #000000;
             margin-bottom: 12px;
             font-size: 1.1rem;
             font-weight: 600;
@@ -739,20 +756,20 @@
         }
 
         #fraction-calculator .example {
-            background: #ebf8ff;
+            background: #f0f0f0;
             padding: 12px 15px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 0.9rem;
-            color: #2b6cb0;
+            color: #000000;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid #bee3f8;
+            border: 1px solid #e0e0e0;
             font-weight: 500;
         }
 
         #fraction-calculator .example:hover {
-            background: #bee3f8;
+            background: #e0e0e0;
             transform: translateY(-1px);
         }
 
@@ -792,6 +809,7 @@
                 left: 20px;
                 right: 20px;
                 max-width: none;
+                bottom: 70px;
             }
         }
 
@@ -801,7 +819,7 @@
             }
             
             .container {
-                border-radius: 15px;
+                border-radius: 10px;
             }
             
             .result-grid {
@@ -1192,6 +1210,7 @@
         <button class="install-btn" onclick="dismissInstallPrompt()" style="background: transparent; color: white; border: 1px solid white; margin-left: 8px;">Later</button>
     </div>
 
+    <!-- ALL JAVASCRIPT CODE REMAINS EXACTLY THE SAME AS BEFORE -->
     <script>
         // PWA Installation with iOS support
         let deferredPrompt;
@@ -1223,7 +1242,7 @@
             iosPrompt.className = 'install-prompt';
             iosPrompt.innerHTML = `
                 <strong>Install MW Staircase Calc</strong>
-                <p>Tap <span style="font-weight: bold; color: #4299e1;">⎋</span> then "Add to Home Screen"</p>
+                <p>Tap <span style="font-weight: bold; color: #ffffff;">⎋</span> then "Add to Home Screen"</p>
                 <button class="install-btn" onclick="dismissInstallPrompt()">Got It</button>
             `;
             iosPrompt.id = 'iosInstallPrompt';
@@ -1354,7 +1373,6 @@
     </script>
 
     <!-- ALL THE ORIGINAL CALCULATOR SCRIPTS REMAIN EXACTLY THE SAME -->
-    <!-- Baluster Calculator Script -->
     <script>
         // Improved fraction handling system
         class FractionConverter {
@@ -2178,10 +2196,10 @@
 
                     this.resultDisplay.textContent = fractionResult;
                     this.decimalResultDisplay.textContent = `= ${decimalResult.toFixed(6)}`;
-                    this.resultDisplay.style.color = '#2d3748';
+                    this.resultDisplay.style.color = '#000000';
                 } catch (error) {
                     this.resultDisplay.textContent = 'Error in expression';
-                    this.resultDisplay.style.color = '#e53e3e';
+                    this.resultDisplay.style.color = '#000000';
                     this.decimalResultDisplay.textContent = '';
                 }
             }
