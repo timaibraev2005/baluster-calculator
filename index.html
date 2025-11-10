@@ -879,6 +879,76 @@
             transform: translateY(-1px);
         }
 
+        /* Triangle Calculator Styles */
+        .triangle-controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .triangle-type, .number-format {
+            display: flex;
+            gap: 8px;
+        }
+
+        .triangle-type button, .number-format button {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .triangle-type button.active, .number-format button.active {
+            background: #000000;
+            color: white;
+            border-color: #000000;
+        }
+
+        .triangle-type button:hover:not(.active), .number-format button:hover:not(.active) {
+            border-color: #000000;
+        }
+
+        .triangle-visual-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .triangle-svg-container {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .triangle-svg {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .triangle-input-field {
+            position: absolute;
+            width: 60px;
+            padding: 6px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .triangle-input-field:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
@@ -916,6 +986,15 @@
                 right: 20px;
                 max-width: none;
                 bottom: 70px;
+            }
+
+            .triangle-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .triangle-type, .number-format {
+                justify-content: center;
             }
         }
 
@@ -999,6 +1078,17 @@
             .tape-point-value {
                 font-size: 1.6rem;
             }
+
+            /* Triangle calculator mobile styles */
+            .triangle-svg {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .triangle-input-field {
+                width: 50px;
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1021,6 +1111,11 @@
 
             #fraction-calculator .row {
                 gap: 4px;
+            }
+
+            .triangle-svg {
+                width: 220px;
+                height: 220px;
             }
         }
     </style>
@@ -1054,6 +1149,10 @@
         <div class="nav-item" onclick="showCalculator('rail-miter')">
             <span class="nav-icon">🔪</span>
             <span class="nav-text">Rail Miter Calculator</span>
+        </div>
+        <div class="nav-item" onclick="showCalculator('triangle')">
+            <span class="nav-icon">△</span>
+            <span class="nav-text">Triangle Calculator</span>
         </div>
         <div class="nav-item back-to-catalog" onclick="showCatalog()">
             <span class="nav-icon">🏠</span>
@@ -1094,6 +1193,12 @@
                 <div class="catalog-icon">🔪</div>
                 <div class="catalog-title">Rail Miter Calculator</div>
                 <div class="catalog-desc">Calculate perfect miter cuts for rail connections</div>
+            </div>
+            
+            <div class="catalog-card" onclick="showCalculator('triangle')">
+                <div class="catalog-icon">△</div>
+                <div class="catalog-title">Triangle Calculator</div>
+                <div class="catalog-desc">Solve right and regular triangles with visual interface</div>
             </div>
         </div>
     </div>
@@ -1438,6 +1543,109 @@
         </div>
     </div>
 
+    <!-- Triangle Calculator -->
+    <div id="triangle-calculator" class="calculator-container">
+        <div class="container">
+            <div class="calc-header">
+                <h1>Triangle Calculator</h1>
+                <p>Professional triangle calculations</p>
+            </div>
+
+            <div class="triangle-controls">
+                <div class="triangle-type">
+                    <button id="btnRightTriangle" onclick="showTriangleType('right')" class="active">Right Triangle</button>
+                    <button id="btnRegularTriangle" onclick="showTriangleType('regular')">Regular Triangle</button>
+                </div>
+                <div class="number-format">
+                    <button id="btnDecimalFormat" onclick="setTriangleNumberFormat('decimal')" class="active">Decimal</button>
+                    <button id="btnFractionFormat" onclick="setTriangleNumberFormat('fraction')">Fraction</button>
+                </div>
+            </div>
+
+            <!-- Right Triangle -->
+            <div id="rightTriangleContainer" class="triangle-visual-container">
+                <div class="triangle-svg-container">
+                    <svg width="280" height="280" viewBox="0 0 300 300" class="triangle-svg">
+                        <polygon points="50,250 250,250 50,50" fill="none" stroke="#000000" stroke-width="3"/>
+                        <path d="M70,250 L70,230 L50,230" fill="none" stroke="#000000" stroke-width="2"/>
+                        <text x="25" y="150" text-anchor="middle" fill="#000000" font-size="14">a</text>
+                        <text x="150" y="270" text-anchor="middle" fill="#000000" font-size="14">b</text>
+                        <text x="140" y="140" text-anchor="middle" transform="rotate(-45 140,140)" fill="#000000" font-size="14">c</text>
+                        <text x="70" y="240" text-anchor="middle" fill="#000000" font-size="12">α</text>
+                        <text x="200" y="240" text-anchor="middle" fill="#000000" font-size="12">β</text>
+                        <text x="65" y="230" text-anchor="middle" fill="#000000" font-size="10">90°</text>
+                    </svg>
+                    
+                    <input type="text" id="right_a" class="triangle-input-field" placeholder="a" style="left: 30px; top: 130px;">
+                    <input type="text" id="right_b" class="triangle-input-field" placeholder="b" style="left: 140px; top: 260px;">
+                    <input type="text" id="right_c" class="triangle-input-field" placeholder="c" style="left: 170px; top: 150px;">
+                    <input type="text" id="right_alpha" class="triangle-input-field" placeholder="α°" style="left: 90px; top: 210px;">
+                    <input type="text" id="right_beta" class="triangle-input-field" placeholder="β°" style="left: 230px; top: 210px;">
+                </div>
+            </div>
+
+            <!-- Regular Triangle -->
+            <div id="regularTriangleContainer" class="triangle-visual-container hidden">
+                <div class="triangle-svg-container">
+                    <svg width="280" height="280" viewBox="0 0 300 300" class="triangle-svg">
+                        <polygon points="50,250 250,200 100,50" fill="none" stroke="#000000" stroke-width="3"/>
+                        <text x="150" y="270" text-anchor="middle" fill="#000000" font-size="14">a</text>
+                        <text x="180" y="125" text-anchor="middle" transform="rotate(-30 180,125)" fill="#000000" font-size="14">b</text>
+                        <text x="70" y="150" text-anchor="middle" transform="rotate(40 70,150)" fill="#000000" font-size="14">c</text>
+                        <text x="70" y="230" text-anchor="middle" fill="#000000" font-size="12">α</text>
+                        <text x="220" y="190" text-anchor="middle" fill="#000000" font-size="12">β</text>
+                        <text x="90" y="70" text-anchor="middle" fill="#000000" font-size="12">γ</text>
+                    </svg>
+                    
+                    <input type="text" id="reg_a" class="triangle-input-field" placeholder="a" style="left: 150px; top: 250px;">
+                    <input type="text" id="reg_b" class="triangle-input-field" placeholder="b" style="left: 200px; top: 120px;">
+                    <input type="text" id="reg_c" class="triangle-input-field" placeholder="c" style="left: 60px; top: 150px;">
+                    <input type="text" id="reg_alpha" class="triangle-input-field" placeholder="α°" style="left: 90px; top: 200px;">
+                    <input type="text" id="reg_beta" class="triangle-input-field" placeholder="β°" style="left: 230px; top: 170px;">
+                    <input type="text" id="reg_gamma" class="triangle-input-field" placeholder="γ°" style="left: 100px; top: 80px;">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="solveTriangle()" style="margin-top: 20px;">Solve Triangle</button>
+
+            <div class="result-section" id="triangleResultSection">
+                <div class="result-title">Triangle Solution</div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="result-label">Side a</div>
+                        <div class="result-value" id="resultSideA">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Side b</div>
+                        <div class="result-value" id="resultSideB">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Side c</div>
+                        <div class="result-value" id="resultSideC">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Angle α</div>
+                        <div class="result-value" id="resultAngleA">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Angle β</div>
+                        <div class="result-value" id="resultAngleB">-</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Angle γ</div>
+                        <div class="result-value" id="resultAngleC">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="triangleErrorMessage"></div>
+
+            <div class="info-section">
+                <strong>Note:</strong> Professional triangle calculator. Works completely offline. Install to home screen for best experience.
+            </div>
+        </div>
+    </div>
+
     <div class="install-prompt" id="installPrompt">
         <strong>Install MW Staircase Calc</strong>
         <p>For quick access and offline use</p>
@@ -1556,7 +1764,8 @@
                 'baluster': 'Baluster Calculator',
                 'rail': 'Rail Height Calculator', 
                 'fraction': 'Fraction Calculator',
-                'rail-miter': 'Rail Miter Calculator'
+                'rail-miter': 'Rail Miter Calculator',
+                'triangle': 'Triangle Calculator'
             };
             document.querySelector('.header-title').textContent = titles[calculatorType];
             
@@ -1570,6 +1779,13 @@
                 }, 100);
             } else if (calculatorType === 'rail-miter') {
                 setTimeout(calculateMiterAngle, 100);
+            } else if (calculatorType === 'triangle') {
+                // Initialize triangle calculator if needed
+                setTimeout(() => {
+                    // Focus on first input field
+                    const firstInput = document.querySelector('.triangle-input-field');
+                    if (firstInput) firstInput.focus();
+                }, 100);
             }
         }
 
@@ -2656,7 +2872,7 @@
         });
     </script>
 
-        <!-- Rail Miter Calculator Script -->
+    <!-- Rail Miter Calculator Script -->
     <script>
         // Rail Miter Calculator Functions
         function calculateMiterAngle() {
@@ -2718,6 +2934,212 @@
         // Auto-calculate on load
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(calculateMiterAngle, 100);
+        });
+    </script>
+
+    <!-- Triangle Calculator Script -->
+    <script>
+        // Triangle Calculator Script
+        let currentTriangleType = 'right';
+        let triangleNumberFormat = 'decimal';
+
+        function showTriangleType(type) {
+            currentTriangleType = type;
+            
+            // Update buttons
+            document.getElementById('btnRightTriangle').classList.toggle('active', type === 'right');
+            document.getElementById('btnRegularTriangle').classList.toggle('active', type === 'regular');
+            
+            // Update containers
+            document.getElementById('rightTriangleContainer').classList.toggle('hidden', type !== 'right');
+            document.getElementById('regularTriangleContainer').classList.toggle('hidden', type !== 'regular');
+            
+            // Hide previous results
+            document.getElementById('triangleResultSection').classList.remove('active');
+            document.getElementById('triangleErrorMessage').style.display = 'none';
+        }
+
+        function setTriangleNumberFormat(format) {
+            triangleNumberFormat = format;
+            document.getElementById('btnDecimalFormat').classList.toggle('active', format === 'decimal');
+            document.getElementById('btnFractionFormat').classList.toggle('active', format === 'fraction');
+        }
+
+        function formatTriangleNumber(value, isAngle = false) {
+            if (triangleNumberFormat === 'fraction') {
+                return fractionConverter.toConstructionFraction(value);
+            } else {
+                return isAngle ? value.toFixed(2) : value.toFixed(3);
+            }
+        }
+
+        function parseTriangleInput(value) {
+            try {
+                return fractionConverter.parseFraction(value);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function solveTriangle() {
+            const resultSection = document.getElementById('triangleResultSection');
+            const errorMessage = document.getElementById('triangleErrorMessage');
+            
+            resultSection.classList.remove('active');
+            errorMessage.style.display = 'none';
+            
+            if (currentTriangleType === 'right') {
+                solveRightTriangle();
+            } else {
+                solveRegularTriangle();
+            }
+        }
+
+        function solveRightTriangle() {
+            // Get input values
+            const a = parseTriangleInput(document.getElementById('right_a').value);
+            const b = parseTriangleInput(document.getElementById('right_b').value);
+            const c = parseTriangleInput(document.getElementById('right_c').value);
+            const alpha = parseTriangleInput(document.getElementById('right_alpha').value);
+            const beta = parseTriangleInput(document.getElementById('right_beta').value);
+            
+            let result = {};
+            let knownParams = 0;
+            
+            // Count known parameters
+            if (a !== null) knownParams++;
+            if (b !== null) knownParams++;
+            if (c !== null) knownParams++;
+            if (alpha !== null) knownParams++;
+            if (beta !== null) knownParams++;
+            
+            if (knownParams < 2) {
+                showTriangleError("Enter at least two parameters (sides or angle + side)");
+                return;
+            }
+            
+            try {
+                // Calculate based on known parameters
+                if (a && b) {
+                    // Two legs
+                    result.a = a;
+                    result.b = b;
+                    result.c = Math.sqrt(a*a + b*b);
+                    result.alpha = Math.atan(a/b) * (180 / Math.PI);
+                    result.beta = 90 - result.alpha;
+                } else if (a && c) {
+                    // Leg and hypotenuse
+                    result.a = a;
+                    result.c = c;
+                    if (a >= c) {
+                        showTriangleError("Leg cannot be longer than hypotenuse");
+                        return;
+                    }
+                    result.b = Math.sqrt(c*c - a*a);
+                    result.alpha = Math.asin(a/c) * (180 / Math.PI);
+                    result.beta = 90 - result.alpha;
+                } else if (b && c) {
+                    // Leg and hypotenuse
+                    result.b = b;
+                    result.c = c;
+                    if (b >= c) {
+                        showTriangleError("Leg cannot be longer than hypotenuse");
+                        return;
+                    }
+                    result.a = Math.sqrt(c*c - b*b);
+                    result.beta = Math.asin(b/c) * (180 / Math.PI);
+                    result.alpha = 90 - result.beta;
+                } else if (alpha && a) {
+                    // Angle and opposite leg
+                    result.alpha = alpha;
+                    result.a = a;
+                    result.c = a / Math.sin(alpha * Math.PI / 180);
+                    result.b = Math.sqrt(result.c*result.c - a*a);
+                    result.beta = 90 - alpha;
+                } else if (alpha && b) {
+                    // Angle and adjacent leg
+                    result.alpha = alpha;
+                    result.b = b;
+                    result.a = b * Math.tan(alpha * Math.PI / 180);
+                    result.c = Math.sqrt(result.a*result.a + b*b);
+                    result.beta = 90 - alpha;
+                } else if (alpha && c) {
+                    // Angle and hypotenuse
+                    result.alpha = alpha;
+                    result.c = c;
+                    result.a = c * Math.sin(alpha * Math.PI / 180);
+                    result.b = c * Math.cos(alpha * Math.PI / 180);
+                    result.beta = 90 - alpha;
+                } else if (beta && a) {
+                    // Angle and leg
+                    result.beta = beta;
+                    result.a = a;
+                    result.b = a / Math.tan(beta * Math.PI / 180);
+                    result.c = Math.sqrt(a*a + result.b*result.b);
+                    result.alpha = 90 - beta;
+                } else if (beta && b) {
+                    // Angle and leg
+                    result.beta = beta;
+                    result.b = b;
+                    result.a = b * Math.tan(beta * Math.PI / 180);
+                    result.c = Math.sqrt(result.a*result.a + b*b);
+                    result.alpha = 90 - beta;
+                } else if (beta && c) {
+                    // Angle and hypotenuse
+                    result.beta = beta;
+                    result.c = c;
+                    result.b = c * Math.sin(beta * Math.PI / 180);
+                    result.a = c * Math.cos(beta * Math.PI / 180);
+                    result.alpha = 90 - beta;
+                } else {
+                    showTriangleError("Not enough data to solve the triangle");
+                    return;
+                }
+                
+                // Update input fields with calculated values
+                document.getElementById('right_a').value = formatTriangleNumber(result.a);
+                document.getElementById('right_b').value = formatTriangleNumber(result.b);
+                document.getElementById('right_c').value = formatTriangleNumber(result.c);
+                document.getElementById('right_alpha').value = formatTriangleNumber(result.alpha, true);
+                document.getElementById('right_beta').value = formatTriangleNumber(result.beta, true);
+                
+                // Display results
+                document.getElementById('resultSideA').textContent = formatTriangleNumber(result.a);
+                document.getElementById('resultSideB').textContent = formatTriangleNumber(result.b);
+                document.getElementById('resultSideC').textContent = formatTriangleNumber(result.c);
+                document.getElementById('resultAngleA').textContent = formatTriangleNumber(result.alpha, true) + '°';
+                document.getElementById('resultAngleB').textContent = formatTriangleNumber(result.beta, true) + '°';
+                document.getElementById('resultAngleC').textContent = '90°';
+                
+                document.getElementById('triangleResultSection').classList.add('active');
+                
+            } catch (error) {
+                showTriangleError("Calculation error: " + error.message);
+            }
+        }
+
+        function solveRegularTriangle() {
+            // For now, show message that regular triangle is in development
+            showTriangleError("Regular triangle solver is in development. Currently only right triangles are supported.");
+        }
+
+        function showTriangleError(message) {
+            const errorMessage = document.getElementById('triangleErrorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Add Enter key support for triangle inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for all triangle input fields
+            const triangleInputs = document.querySelectorAll('.triangle-input-field');
+            triangleInputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        solveTriangle();
+                    }
+                });
+            });
         });
     </script>
 </body>
