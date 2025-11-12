@@ -1596,7 +1596,7 @@
 
                     <div class="triangle-controls">
                         <button id="triangleCalcBtn" class="triangle-btn">Calculate</button>
-                        <button id="triangleClearBtn" class="triangle-btn secondary">Clear</button>
+                        <button id="triangleClearBtn" class="triangle-btn secondary">Clear All</button>
                         <button id="triangleExampleBtn" class="triangle-btn secondary">Example</button>
                     </div>
 
@@ -1614,7 +1614,8 @@
             </div>
 
             <div class="info-section">
-                <strong>Note:</strong> Enter any three known values (sides or angles). Supports fractions for sides (e.g., 3 1/2, 3.5, 3½). Works completely offline. Install to home screen for best experience.
+                <strong>Note:</strong> Enter any three known values (sides or angles). Supports fractions for sides (e.g., 3 1/2, 3.5, 3½). 
+                Calculated values will automatically fill empty fields. Works completely offline. Install to home screen for best experience.
             </div>
         </div>
     </div>
@@ -3100,6 +3101,32 @@
             return rad2deg(Math.asin(x));
         }
 
+        // NEW: Function to fill empty input fields with calculated values
+        function fillTriangleInputs(triangle) {
+            const fields = [
+                { id: 'triangle-a', value: triangle.a, isAngle: false },
+                { id: 'triangle-b', value: triangle.b, isAngle: false },
+                { id: 'triangle-c', value: triangle.c, isAngle: false },
+                { id: 'triangle-A', value: triangle.A, isAngle: true },
+                { id: 'triangle-B', value: triangle.B, isAngle: true },
+                { id: 'triangle-C', value: triangle.C, isAngle: true }
+            ];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                // Only fill if the field is empty and we have a calculated value
+                if (input && input.value.trim() === '' && field.value !== null && !isNaN(field.value)) {
+                    if (field.isAngle) {
+                        // For angles, show 1 decimal place
+                        input.value = field.value.toFixed(1);
+                    } else {
+                        // For sides, use construction fraction format
+                        input.value = triangleFractionConverter.toConstructionFraction(field.value);
+                    }
+                }
+            });
+        }
+
         // Universal triangle solver (SSS, SAS, ASA/AAS, SSA)
         function solveTriangle(vals) {
             let {a, b, c, A, B, C} = vals;
@@ -3169,134 +3196,133 @@
         }
 
         // Draw triangle with labels and construction fractions
-        // Draw triangle with labels and construction fractions
-function drawTriangle(t) {
-    const g = document.getElementById("triangleGroup");
-    g.innerHTML = "";
-    
-    const a = t.a, b = t.b, c = t.c;
-    const Ax = 0, Ay = 0, Bx = c, By = 0;
-    const x = (c * c + b * b - a * a) / (2 * c);
-    const y = Math.sqrt(Math.max(b * b - x * x, 0));
-    const scale = Math.min(340 / (c), 280 / (y)) * 0.8;
-    const offx = 30, offy = 270;
-    
-    const A2 = {x: offx + Ax * scale, y: offy - Ay * scale};
-    const B2 = {x: offx + Bx * scale, y: offy - By * scale};
-    const C2 = {x: offx + x * scale, y: offy - y * scale};
-    
-    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-    poly.setAttribute("points", `${A2.x},${A2.y} ${B2.x},${B2.y} ${C2.x},${C2.y}`);
-    poly.setAttribute("fill", "#f0f0f0");
-    poly.setAttribute("stroke", "#000000");
-    poly.setAttribute("stroke-width", "2");
-    g.appendChild(poly);
+        function drawTriangle(t) {
+            const g = document.getElementById("triangleGroup");
+            g.innerHTML = "";
+            
+            const a = t.a, b = t.b, c = t.c;
+            const Ax = 0, Ay = 0, Bx = c, By = 0;
+            const x = (c * c + b * b - a * a) / (2 * c);
+            const y = Math.sqrt(Math.max(b * b - x * x, 0));
+            const scale = Math.min(340 / (c), 280 / (y)) * 0.8;
+            const offx = 30, offy = 270;
+            
+            const A2 = {x: offx + Ax * scale, y: offy - Ay * scale};
+            const B2 = {x: offx + Bx * scale, y: offy - By * scale};
+            const C2 = {x: offx + x * scale, y: offy - y * scale};
+            
+            const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            poly.setAttribute("points", `${A2.x},${A2.y} ${B2.x},${B2.y} ${C2.x},${C2.y}`);
+            poly.setAttribute("fill", "#f0f0f0");
+            poly.setAttribute("stroke", "#000000");
+            poly.setAttribute("stroke-width", "2");
+            g.appendChild(poly);
 
-    function text(x, y, txt, clr = "#000000", fs = 13) {
-        const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        el.setAttribute("x", x);
-        el.setAttribute("y", y);
-        el.setAttribute("fill", clr);
-        el.setAttribute("stroke", "#ffffff");
-        el.setAttribute("stroke-width", "2");
-        el.setAttribute("stroke-linejoin", "round");
-        el.setAttribute("paint-order", "stroke");
-        el.setAttribute("font-size", fs);
-        el.setAttribute("font-family", "Arial");
-        el.setAttribute("font-weight", "bold");
-        el.textContent = txt;
-        g.appendChild(el);
-    }
+            function text(x, y, txt, clr = "#000000", fs = 13) {
+                const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                el.setAttribute("x", x);
+                el.setAttribute("y", y);
+                el.setAttribute("fill", clr);
+                el.setAttribute("stroke", "#ffffff");
+                el.setAttribute("stroke-width", "2");
+                el.setAttribute("stroke-linejoin", "round");
+                el.setAttribute("paint-order", "stroke");
+                el.setAttribute("font-size", fs);
+                el.setAttribute("font-family", "Arial");
+                el.setAttribute("font-weight", "bold");
+                el.textContent = txt;
+                g.appendChild(el);
+            }
 
-    // Calculate triangle center for better label placement
-    const centerX = (A2.x + B2.x + C2.x) / 3;
-    const centerY = (A2.y + B2.y + C2.y) / 3;
+            // Calculate triangle center for better label placement
+            const centerX = (A2.x + B2.x + C2.x) / 3;
+            const centerY = (A2.y + B2.y + C2.y) / 3;
 
-    // Function to calculate distance between two points
-    function distance(p1, p2) {
-        return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
-    }
+            // Function to calculate distance between two points
+            function distance(p1, p2) {
+                return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
+            }
 
-    // Function to find optimal label position for angles
-    function getAngleLabelPosition(vertex, oppositeSideMid, center) {
-        // Move angle label away from the center and opposite side
-        const dx = vertex.x - center.x;
-        const dy = vertex.y - center.y;
-        const distanceFromVertex = 25; // Distance from vertex for label
-        
-        // Normalize the direction vector
-        const length = Math.sqrt(dx * dx + dy * dy);
-        const normDx = dx / length;
-        const normDy = dy / length;
-        
-        return {
-            x: vertex.x + normDx * distanceFromVertex,
-            y: vertex.y + normDy * distanceFromVertex
-        };
-    }
+            // Function to find optimal label position for angles
+            function getAngleLabelPosition(vertex, oppositeSideMid, center) {
+                // Move angle label away from the center and opposite side
+                const dx = vertex.x - center.x;
+                const dy = vertex.y - center.y;
+                const distanceFromVertex = 25; // Distance from vertex for label
+                
+                // Normalize the direction vector
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const normDx = dx / length;
+                const normDy = dy / length;
+                
+                return {
+                    x: vertex.x + normDx * distanceFromVertex,
+                    y: vertex.y + normDy * distanceFromVertex
+                };
+            }
 
-    // Function to find optimal label position for sides
-    function getSideLabelPosition(midPoint, vertex1, vertex2, center) {
-        // Calculate perpendicular direction to the side
-        const dx = vertex2.x - vertex1.x;
-        const dy = vertex2.y - vertex1.y;
-        const perpDx = -dy;
-        const perpDy = dx;
-        
-        // Normalize perpendicular vector
-        const length = Math.sqrt(perpDx * perpDx + perpDy * perpDy);
-        const normPerpDx = perpDx / length;
-        const normPerpDy = perpDy / length;
-        
-        // Determine which side of the line the center is on
-        const centerDx = center.x - midPoint.x;
-        const centerDy = center.y - midPoint.y;
-        const dotProduct = centerDx * normPerpDx + centerDy * normPerpDy;
-        
-        // Place label on the opposite side of the center
-        const offset = dotProduct > 0 ? -15 : 15;
-        
-        return {
-            x: midPoint.x + normPerpDx * offset,
-            y: midPoint.y + normPerpDy * offset
-        };
-    }
+            // Function to find optimal label position for sides
+            function getSideLabelPosition(midPoint, vertex1, vertex2, center) {
+                // Calculate perpendicular direction to the side
+                const dx = vertex2.x - vertex1.x;
+                const dy = vertex2.y - vertex1.y;
+                const perpDx = -dy;
+                const perpDy = dx;
+                
+                // Normalize perpendicular vector
+                const length = Math.sqrt(perpDx * perpDx + perpDy * perpDy);
+                const normPerpDx = perpDx / length;
+                const normPerpDy = perpDy / length;
+                
+                // Determine which side of the line the center is on
+                const centerDx = center.x - midPoint.x;
+                const centerDy = center.y - midPoint.y;
+                const dotProduct = centerDx * normPerpDx + centerDy * normPerpDy;
+                
+                // Place label on the opposite side of the center
+                const offset = dotProduct > 0 ? -15 : 15;
+                
+                return {
+                    x: midPoint.x + normPerpDx * offset,
+                    y: midPoint.y + normPerpDy * offset
+                };
+            }
 
-    // Calculate midpoints of sides
-    const midAB = {x: (A2.x + B2.x) / 2, y: (A2.y + B2.y) / 2};
-    const midBC = {x: (B2.x + C2.x) / 2, y: (B2.y + C2.y) / 2};
-    const midCA = {x: (C2.x + A2.x) / 2, y: (C2.y + A2.y) / 2};
+            // Calculate midpoints of sides
+            const midAB = {x: (A2.x + B2.x) / 2, y: (A2.y + B2.y) / 2};
+            const midBC = {x: (B2.x + C2.x) / 2, y: (B2.y + C2.y) / 2};
+            const midCA = {x: (C2.x + A2.x) / 2, y: (C2.y + A2.y) / 2};
 
-    // Get optimal positions for angle labels
-    const A2_label = getAngleLabelPosition(A2, midBC, {x: centerX, y: centerY});
-    const B2_label = getAngleLabelPosition(B2, midCA, {x: centerX, y: centerY});
-    const C2_label = getAngleLabelPosition(C2, midAB, {x: centerX, y: centerY});
+            // Get optimal positions for angle labels
+            const A2_label = getAngleLabelPosition(A2, midBC, {x: centerX, y: centerY});
+            const B2_label = getAngleLabelPosition(B2, midCA, {x: centerX, y: centerY});
+            const C2_label = getAngleLabelPosition(C2, midAB, {x: centerX, y: centerY});
 
-    // Get optimal positions for side labels
-    const midAB_label = getSideLabelPosition(midAB, A2, B2, {x: centerX, y: centerY});
-    const midBC_label = getSideLabelPosition(midBC, B2, C2, {x: centerX, y: centerY});
-    const midCA_label = getSideLabelPosition(midCA, C2, A2, {x: centerX, y: centerY});
+            // Get optimal positions for side labels
+            const midAB_label = getSideLabelPosition(midAB, A2, B2, {x: centerX, y: centerY});
+            const midBC_label = getSideLabelPosition(midBC, B2, C2, {x: centerX, y: centerY});
+            const midCA_label = getSideLabelPosition(midCA, C2, A2, {x: centerX, y: centerY});
 
-    // Vertices with white stroke
-    text(A2.x - 10, A2.y + 15, "A", "#000000");
-    text(B2.x + 8, B2.y + 15, "B", "#000000");
-    text(C2.x, C2.y - 10, "C", "#000000");
+            // Vertices with white stroke
+            text(A2.x - 10, A2.y + 15, "A", "#000000");
+            text(B2.x + 8, B2.y + 15, "B", "#000000");
+            text(C2.x, C2.y - 10, "C", "#000000");
 
-    // Angles with white stroke - using optimized positions
-    text(A2_label.x, A2_label.y, "A=" + t.A.toFixed(1) + "°", "#a00");
-    text(B2_label.x, B2_label.y, "B=" + t.B.toFixed(1) + "°", "#a00");
-    text(C2_label.x, C2_label.y, "C=" + t.C.toFixed(1) + "°", "#a00");
+            // Angles with white stroke - using optimized positions
+            text(A2_label.x, A2_label.y, "A=" + t.A.toFixed(1) + "°", "#a00");
+            text(B2_label.x, B2_label.y, "B=" + t.B.toFixed(1) + "°", "#a00");
+            text(C2_label.x, C2_label.y, "C=" + t.C.toFixed(1) + "°", "#a00");
 
-    // Sides - with construction fractions in parentheses and white stroke - using optimized positions
-    // Format side values with construction fractions
-    const aFormatted = `a=${t.a.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.a)})`;
-    const bFormatted = `b=${t.b.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.b)})`;
-    const cFormatted = `c=${t.c.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.c)})`;
-    
-    text(midBC_label.x, midBC_label.y, aFormatted, "#000000", 11);
-    text(midCA_label.x, midCA_label.y, bFormatted, "#000000", 11);
-    text(midAB_label.x, midAB_label.y, cFormatted, "#000000", 11);
-}
+            // Sides - with construction fractions in parentheses and white stroke - using optimized positions
+            // Format side values with construction fractions
+            const aFormatted = `a=${t.a.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.a)})`;
+            const bFormatted = `b=${t.b.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.b)})`;
+            const cFormatted = `c=${t.c.toFixed(2)} (${triangleFractionConverter.toConstructionFraction(t.c)})`;
+            
+            text(midBC_label.x, midBC_label.y, aFormatted, "#000000", 11);
+            text(midCA_label.x, midCA_label.y, bFormatted, "#000000", 11);
+            text(midAB_label.x, midAB_label.y, cFormatted, "#000000", 11);
+        }
 
         // Initialize triangle calculator
         document.getElementById("triangleCalcBtn").onclick = () => {
@@ -3351,6 +3377,9 @@ function drawTriangle(t) {
             
             err.style.display = "none";
             drawTriangle(t);
+            
+            // NEW: Fill empty input fields with calculated values
+            fillTriangleInputs(t);
         };
 
         document.getElementById("triangleClearBtn").onclick = () => {
@@ -3397,4 +3426,3 @@ function drawTriangle(t) {
     </script>
 </body>
 </html>
-
